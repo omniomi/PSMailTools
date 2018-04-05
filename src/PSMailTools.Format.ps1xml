@@ -1,13 +1,37 @@
 <Configuration>
     <ViewDefinitions>
         <View>
+            <Name>SPFRecord-Table</Name>
+            <ViewSelectedBy>
+                <TypeName>MailTools.Security.SPF_Record</TypeName>
+            </ViewSelectedBy>
+            <TableControl>
+                <TableHeaders>
+                    <TableColumnHeader/>
+                    <TableColumnHeader/>
+                </TableHeaders>
+                <TableRowEntries>
+                    <TableRowEntry>
+                        <TableColumnItems>
+                            <TableColumnItem>
+                                <PropertyName>Name</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>Value</PropertyName>
+                            </TableColumnItem>
+                        </TableColumnItems>
+                    </TableRowEntry>
+                </TableRowEntries>
+            </TableControl>
+        </View>
+        <View>
             <Name>SPFRecord-List</Name>
             <ViewSelectedBy>
                 <TypeName>MailTools.Security.SPF_Record</TypeName>
             </ViewSelectedBy>
             <GroupBy>
-                <PropertyName>Domain</PropertyName>
-                <Label>Domain</Label>
+                <PropertyName>Name</PropertyName>
+                <Label>Name</Label>
             </GroupBy>
             <ListControl>
                 <ListEntries>
@@ -20,30 +44,6 @@
                     </ListEntry>
                 </ListEntries>
             </ListControl>
-        </View>
-        <View>
-            <Name>SPFRecord-Table</Name>
-            <ViewSelectedBy>
-                <TypeName>MailTools.Security.SPF_Record</TypeName>
-            </ViewSelectedBy>
-            <GroupBy>
-                <PropertyName>Domain</PropertyName>
-                <Label>Domain</Label>
-            </GroupBy>
-            <TableControl>
-                <TableHeaders>
-                    <TableColumnHeader/>
-                </TableHeaders>
-                <TableRowEntries>
-                    <TableRowEntry>
-                        <TableColumnItems>
-                            <TableColumnItem>
-                                <PropertyName>Value</PropertyName>
-                            </TableColumnItem>
-                        </TableColumnItems>
-                    </TableRowEntry>
-                </TableRowEntries>
-            </TableControl>
         </View>
     </ViewDefinitions>
 </Configuration>

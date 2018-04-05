@@ -4,14 +4,8 @@ function ReturnSPF {
         # Domain name to retrieve SPF record for
         [Parameter(Mandatory,
                    ValueFromPipeline)]
-        [Alias('Domain')]
         [String]
-        $Name,
-
-        # DNS server to query
-        [Parameter()]
-        [String]
-        $Server
+        $Name
     )
 
     try {
@@ -20,9 +14,6 @@ function ReturnSPF {
             Type        = 'TXT'
             DnsOnly     = $true
             ErrorAction = 'Stop'
-        }
-        if ($Server) {
-            ResolveParameters.Server = $Server
         }
 
         # Query for all TXT records

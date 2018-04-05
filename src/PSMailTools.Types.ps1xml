@@ -9,7 +9,7 @@
                     <PropertySet>
                         <Name>DefaultDisplayPropertySet</Name>
                         <ReferencedProperties>
-                            <Name>Domain</Name>
+                            <Name>Name</Name>
                             <Name>Value</Name>
                         </ReferencedProperties>
                     </PropertySet>

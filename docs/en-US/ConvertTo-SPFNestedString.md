@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-SPFRecord
+# ConvertTo-SPFNestedString
 
 ## SYNOPSIS
 {{Fill in the Synopsis}}
@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Get-SPFRecord [-Domain] <String[]> [<CommonParameters>]
+ConvertTo-SPFNestedString [[-InputObj] <Object[]>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,15 +30,15 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -Domain
-{{Fill Domain Description}}
+### -InputObj
+{{Fill InputObj Description}}
 
 ```yaml
-Type: String[]
+Type: Object[]
 Parameter Sets: (All)
-Aliases: Name
+Aliases: 
 
-Required: True
+Required: False
 Position: 0
 Default value: None
 Accept pipeline input: True (ByValue)
@@ -50,11 +50,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String
+### None
 
 ## OUTPUTS
 
-### System.Object[]
+### System.Object
 
 ## NOTES
 

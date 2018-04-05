@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-SPFRecord
+# Resolve-SPFRecord
 
 ## SYNOPSIS
 {{Fill in the Synopsis}}
@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Get-SPFRecord [-Domain] <String[]> [<CommonParameters>]
+Resolve-SPFRecord [-Domain] <String[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -41,7 +41,7 @@ Aliases: Name
 Required: True
 Position: 0
 Default value: None
-Accept pipeline input: True (ByValue)
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -51,6 +51,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ### System.String
+System.Object
 
 ## OUTPUTS
 
