@@ -45,5 +45,32 @@
                 </ListEntries>
             </ListControl>
         </View>
+        <View>
+            <Name>SPFValidationBasic-List</Name>
+            <ViewSelectedBy>
+                <TypeName>MailTools.Security.SPF.Validation_Basic</TypeName>
+            </ViewSelectedBy>
+            <GroupBy>
+                <PropertyName>Name</PropertyName>
+                <Label>Name</Label>
+            </GroupBy>
+            <ListControl>
+                <ListEntries>
+                    <ListEntry>
+                        <ListItems>
+                            <ListItem>
+                                <PropertyName>RecordFound</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                                <PropertyName>FormatIsValid</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                                <PropertyName>Value</PropertyName>
+                            </ListItem>
+                        </ListItems>
+                    </ListEntry>
+                </ListEntries>
+            </ListControl>
+        </View>
     </ViewDefinitions>
 </Configuration>

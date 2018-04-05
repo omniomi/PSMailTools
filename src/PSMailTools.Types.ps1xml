@@ -17,4 +17,23 @@
             </MemberSet>
         </Members>
     </Type>
+    <Type>
+        <Name>MailTools.Security.SPF.Validation_Basic</Name>
+        <Members>
+            <MemberSet>
+                <Name>PSStandardMembers</Name>
+                <Members>
+                    <PropertySet>
+                        <Name>DefaultDisplayPropertySet</Name>
+                        <ReferencedProperties>
+                            <Name>Name</Name>
+                            <Name>RecordFound</Name>
+                            <Name>FormatIsValid</Name>
+                            <Name>Value</Name>
+                        </ReferencedProperties>
+                    </PropertySet>
+                </Members>
+            </MemberSet>
+        </Members>
+    </Type>
 </Types>
