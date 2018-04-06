@@ -1,14 +1,11 @@
 function Test-SPFRecord {
     [CmdletBinding(DefaultParameterSetName='BasicName')]
-    [OutputType([System.Object])]
+    [OutputType('MailTools.Security.SPF.Validation_Basic', ParameterSetName='BasicName','BasicValue','BasicObj')]
     param (
         # Test by domain name
         [Parameter(Mandatory,
                    Position=0,
                    ParameterSetName='BasicName')]
-        [Parameter(Mandatory,
-                   ValueFromPipelineByPropertyName,
-                   ParameterSetName='BasicValueName')]
         [Alias('Domain')]
         [String]
         $Name,
@@ -16,17 +13,20 @@ function Test-SPFRecord {
         # Test by record value
         [Parameter(Mandatory,
                    ParameterSetName='BasicValue')]
-        [Parameter(Mandatory,
-                   ValueFromPipelineByPropertyName,
-                   ParameterSetName='BasicValueName')]
         [Alias('Record')]
         [String]
         $Value,
 
+        [Parameter(Mandatory,
+                   ValueFromPipeline,
+                   ParameterSetName='BasicObj')]
+        [MailTools.Security.SPF.SPFRecord]
+        $InputObj,
+
         # Basic Validation
         [Parameter(ParameterSetName='BasicValue')]
         [Parameter(ParameterSetName='BasicName')]
-        [Parameter(ParameterSetName='BasicValueName')]
+        [Parameter(ParameterSetName='BasicObj')]
         [Switch]
         $Basic
     )
@@ -47,8 +47,8 @@ function Test-SPFRecord {
                     ValidateSPFBasic $DomainName
                 }
             }
-            'BasicValueName' {
-                    ValidateSPFBasic $Name $Value
+            'BasicObj' {
+                    ValidateSPFBasic $InputObj.Name $InputObj.Value
             }
         }
     }

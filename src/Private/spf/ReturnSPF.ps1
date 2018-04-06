@@ -25,7 +25,7 @@ function ReturnSPF {
         if ($SPFRecords.Count -eq 0) {
             $Exception = New-Object System.Data.ObjectNotFoundException ("The domain {0} has no SPF records." -f $Name)
             $ErrCategory = [System.Management.Automation.ErrorCategory]::ObjectNotFound
-            $ErrRecord = New-Object System.Management.Automation.ErrorRecord $Exception,'NoSpfRecord',$ErrCategory,$aPath
+            $ErrRecord = New-Object System.Management.Automation.ErrorRecord $Exception,'NoSpfRecord',$ErrCategory,$Name
             $PSCmdlet.ThrowTerminatingError($ErrRecord)
         }
 

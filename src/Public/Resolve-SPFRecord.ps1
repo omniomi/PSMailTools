@@ -1,29 +1,46 @@
 function Resolve-SPFRecord {
-    [CmdletBinding()]
-    [OutputType([System.Object[]])]
+    [CmdletBinding(DefaultParameterSetName='Default')]
+    [OutputType('MailTools.Security.SPF.Recursive')]
     param (
         # Domain name to retrieve SPF record for
         [Parameter(Mandatory,
-                   ValueFromPipelineByPropertyName)]
+                   ValueFromPipelineByPropertyName,
+                   ParameterSetName='Default')]
         [Alias('Name')]
         [String[]]
-        $Domain
+        $Domain,
+
+        [Parameter(Mandatory,
+                   ParameterSetName='InputObj')]
+        [MailTools.Security.SPF.SPFRecord]
+        $InputObj
     )
 
     process {
-        foreach ($DomainName in $Domain) {
-            try {
-                $Record = ReturnSPF $DomainName
+        if ($PSCmdlet.ParameterSetName -eq 'InputObj') {
+            foreach ($Obj in $InputObj) {
+                try {
+                    ReturnSPFRecursive -Name $Obj.Name -Record $Obj.Value
+                }
+                catch {
+                    $PSCmdlet.ThrowTerminatingError($PSItem)
+                }
             }
-            catch {
-                $PSCmdlet.ThrowTerminatingError($PSItem)
-            }
+        } else {
+            foreach ($DomainName in $Domain) {
+                try {
+                    $Record = ReturnSPF $DomainName
+                }
+                catch {
+                    $PSCmdlet.ThrowTerminatingError($PSItem)
+                }
 
-            try {
-                ReturnSPFRecursive -Name $DomainName -Record $Record
-            }
-            catch {
-                $PSCmdlet.ThrowTerminatingError($PSItem)
+                try {
+                    ReturnSPFRecursive -Name $DomainName -Record $Record
+                }
+                catch {
+                    $PSCmdlet.ThrowTerminatingError($PSItem)
+                }
             }
         }
     }

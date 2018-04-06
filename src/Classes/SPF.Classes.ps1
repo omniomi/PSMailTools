@@ -6,10 +6,6 @@ using System.Collections.Generic;
 
 namespace MailTools
 {
-    public class Test
-    {
-
-    }
     namespace Security
     {
         namespace SPF
@@ -49,6 +45,6 @@ namespace MailTools
     }
 }
 '@
-if (-not ("MailTools.Security.Test" -as [type])) {
+if (-not ("MailTools.Security.SPF.SPFRecord" -as [type])) {
     Add-Type -TypeDefinition $Source -Language CSharp -ErrorAction SilentlyContinue
 }

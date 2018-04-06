@@ -1,6 +1,6 @@
 function ReturnSPFRecursive {
     [CmdletBinding()]
-    [OutputType([MailTools.Security.SPF.Recursive])]
+    [OutputType('MailTools.Security.SPF.Recursive')]
     param (
         # Domain name to retrieve SPF record for
         [Parameter()]

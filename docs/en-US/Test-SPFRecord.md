@@ -14,17 +14,17 @@ schema: 2.0.0
 
 ### BasicName (Default)
 ```
-Test-SPFRecord -Name <String> [-Basic] [<CommonParameters>]
-```
-
-### BasicValueName
-```
-Test-SPFRecord -Name <String> -Value <String> [-Basic] [<CommonParameters>]
+Test-SPFRecord [-Name] <String> [-Basic] [<CommonParameters>]
 ```
 
 ### BasicValue
 ```
 Test-SPFRecord -Value <String> [-Basic] [<CommonParameters>]
+```
+
+### BasicObj
+```
+Test-SPFRecord -InputObj <SPFRecord> [-Basic] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -56,6 +56,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -InputObj
+{{Fill InputObj Description}}
+
+```yaml
+Type: SPFRecord
+Parameter Sets: BasicObj
+Aliases: 
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
 ### -Name
 {{Fill Name Description}}
 
@@ -65,19 +80,7 @@ Parameter Sets: BasicName
 Aliases: Domain
 
 Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-```yaml
-Type: String
-Parameter Sets: BasicValueName
-Aliases: Domain
-
-Required: True
-Position: Named
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -88,25 +91,13 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: BasicValueName
-Aliases: Record
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-```yaml
-Type: String
 Parameter Sets: BasicValue
 Aliases: Record
 
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

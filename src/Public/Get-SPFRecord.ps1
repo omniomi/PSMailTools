@@ -1,17 +1,18 @@
 function Get-SPFRecord {
     [CmdletBinding()]
-    [OutputType([MailTools.Security.SPF.SPFRecord[]])]
+    [OutputType('MailTools.Security.SPF.SPFRecord')]
     param (
         # Domain name to retrieve SPF record for
         [Parameter(Mandatory,
-                   ValueFromPipeline)]
-        [Alias('Name')]
+                   ValueFromPipeline,
+                   ValueFromPipelineByPropertyName)]
+        [Alias('Domain')]
         [String[]]
-        $Domain
+        $Name
     )
 
     process {
-        foreach ($DomainName in $Domain) {
+        foreach ($DomainName in $Name) {
             try {
                 $SPFRecord = ReturnSPF $DomainName
             }

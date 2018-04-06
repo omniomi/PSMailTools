@@ -5,21 +5,15 @@ online version:
 schema: 2.0.0
 ---
 
-# Resolve-SPFRecord
+# Get-DMARCRecord
 
 ## SYNOPSIS
 {{Fill in the Synopsis}}
 
 ## SYNTAX
 
-### Default (Default)
 ```
-Resolve-SPFRecord -Domain <String[]> [<CommonParameters>]
-```
-
-### InputObj
-```
-Resolve-SPFRecord -InputObj <SPFRecord> [<CommonParameters>]
+Get-DMARCRecord [-Name] <String[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -36,33 +30,18 @@ PS C:\> {{ Add example code here }}
 
 ## PARAMETERS
 
-### -Domain
-{{Fill Domain Description}}
+### -Name
+{{Fill Name Description}}
 
 ```yaml
 Type: String[]
-Parameter Sets: Default
-Aliases: Name
+Parameter Sets: (All)
+Aliases: Domain
 
 Required: True
-Position: Named
+Position: 0
 Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -InputObj
-{{Fill InputObj Description}}
-
-```yaml
-Type: SPFRecord
-Parameter Sets: InputObj
-Aliases: 
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName, ByValue)
 Accept wildcard characters: False
 ```
 
@@ -71,12 +50,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String
-System.Object
+### System.String[]
 
 ## OUTPUTS
 
-### System.Object[]
+### MailTools.Security.DMARC.DMARCRecord
 
 ## NOTES
 
