@@ -3,7 +3,7 @@ function ConvertTo-SPFNestedString {
     [OutputType([System.String])]
     param (
         [Parameter(ValueFromPipeline)]
-        [System.Object[]]
+        [MailTools.Security.SPF.SPFRecord[]]
         $InputObj
     )
 
