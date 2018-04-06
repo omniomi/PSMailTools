@@ -1,6 +1,6 @@
 function Get-SPFRecord {
     [CmdletBinding()]
-    [OutputType([System.Object[]])]
+    [OutputType([MailTools.Security.SPF.SPFRecord[]])]
     param (
         # Domain name to retrieve SPF record for
         [Parameter(Mandatory,
@@ -21,16 +21,10 @@ function Get-SPFRecord {
 
             # Handle multiple records. (Not valid as per RFC 7208 s3.2)
             $FinalOutput = foreach ($Record in $SPFRecord) {
-                $AllQualifier = $Record | ResolveQualifier
-
-                $Output = [PSCustomObject]@{
-                    Name   = $DomainName
-                    Value    = $Record
-                    Length   = $Record.Length
-                    FailMode = $AllQualifier
+                [MailTools.Security.SPF.SPFRecord]@{
+                    Name  = $DomainName
+                    Value = $Record
                 }
-                $Output.psobject.TypeNames.Insert(0,'MailTools.Security.SPF_Record')
-                $Output
             }
 
             return $FinalOutput

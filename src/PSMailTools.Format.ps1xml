@@ -4,6 +4,7 @@
             <Name>SPFRecord-Table</Name>
             <ViewSelectedBy>
                 <TypeName>MailTools.Security.SPF_Record</TypeName>
+                <TypeName>MailTools.Security.SPF.SPFRecord</TypeName>
             </ViewSelectedBy>
             <TableControl>
                 <TableHeaders>
@@ -28,6 +29,7 @@
             <Name>SPFRecord-List</Name>
             <ViewSelectedBy>
                 <TypeName>MailTools.Security.SPF_Record</TypeName>
+                <TypeName>MailTools.Security.SPF.SPFRecord</TypeName>
             </ViewSelectedBy>
             <GroupBy>
                 <PropertyName>Name</PropertyName>

@@ -60,7 +60,7 @@ Description = 'A collection of tools for email administrators.'
 # ScriptsToProcess = @()
 
 # Type files (.ps1xml) to be loaded when importing this module
-TypesToProcess = 'PSMailTools.Types.ps1xml'
+# TypesToProcess = @()
 
 # Format files (.ps1xml) to be loaded when importing this module
 FormatsToProcess = 'PSMailTools.Format.ps1xml'
