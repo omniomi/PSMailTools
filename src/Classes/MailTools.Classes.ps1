@@ -1,5 +1,6 @@
 $Source = @'
 using System;
+using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -24,9 +25,17 @@ namespace MailTools
                     set
                     {
                         _Value = value;
-                        All = value.Substring(value.LastIndexOf(' ') + 1);
+
+                        string pattern = "(?:-|\\+|~|\\?)all";
+                        Match match = Regex.Match(value, pattern);
+                        All = match.Value;
                     }
                 }
+            }
+
+            public class Recursive : SPFRecord
+            {
+                public int Level { get; set; }
             }
 
             public class Validation_Basic

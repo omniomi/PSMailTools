@@ -1,5 +1,6 @@
 function ReturnSPFRecursive {
     [CmdletBinding()]
+    [OutputType([MailTools.Security.SPF.Recursive])]
     param (
         # Domain name to retrieve SPF record for
         [Parameter()]
@@ -26,45 +27,37 @@ function ReturnSPFRecursive {
 
         $Mechanisms = $Record.Split(' ') | Where { $_ -notlike "ip*" }
 
-        $Output = [PSCustomObject]@{
+        [MailTools.Security.SPF.Recursive]@{
             Name  = $Name
             Value = $Record
             Level = $Level
         }
-        $Output.psobject.TypeNames.Insert(0,'MailTools.Security.SPF_Record')
-        $Output
 
         foreach ($Mechanism in $Mechanisms) {
             switch -Regex ($Mechanism) {
                 "^a$" {
-                    $Output = [PSCustomObject]@{
+                    $Output = [MailTools.Security.SPF.Recursive]@{
                         Name  = 'a'
                         Value = ((Resolve-DnsName $Name -Type A).IPAddress)
                         Level = ($Level + 1)
                     }
-                    $Output.psobject.TypeNames.Insert(0,'MailTools.Security.SPF_Record')
-                    $Output
                 }
                 "^mx$" {
                     $MX = ((Resolve-DnsName $Name -Type MX).NameExchange)
-                    $Output = [PSCustomObject]@{
+                    $Output = [MailTools.Security.SPF.Recursive]@{
                         Name = 'mx'
                         Value = $MX
                         Level = ($Level + 1)
                     }
-                    $Output.psobject.TypeNames.Insert(0,'MailTools.Security.SPF_Record')
-                    $Output
 
                     [regex]$IPRegex = "(?:\d{1,3}\.){3}\d{1,3}"
                     foreach ($MXS in $MX) {
                         if ($MXS -notmatch $IPRegex) {
-                            $Output = [PSCustomObject]@{
+                            [MailTools.Security.SPF.Recursive]@{
                                 Name = $MXS
                                 Value = (ResolveMX $MXS)
                                 Level = ($Level + 2)
                             }
-                            $Output.psobject.TypeNames.Insert(0,'MailTools.Security.SPF_Record')
-                            $Output
                         }
                     }
                 }
