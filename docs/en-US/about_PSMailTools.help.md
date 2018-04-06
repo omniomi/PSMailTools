@@ -15,6 +15,8 @@ PSMailTools provides the ability to
 
 Planned abilities (not limited to)
 
+* Advanced SPF validation.
+* Determine whether an IP is included in an SPF record.
 * Validate DMARC records.
 * Retrieve and validate DKIM records.
 * Test SMTP.
