@@ -4,11 +4,12 @@ function Resolve-SPFRecord {
     param (
         # Domain name to retrieve SPF record for
         [Parameter(Mandatory,
+                   Position=0,
                    ValueFromPipelineByPropertyName,
                    ParameterSetName='Default')]
-        [Alias('Name')]
+        [Alias('Domain')]
         [String[]]
-        $Domain,
+        $Name,
 
         [Parameter(Mandatory,
                    ParameterSetName='InputObj')]
@@ -27,7 +28,7 @@ function Resolve-SPFRecord {
                 }
             }
         } else {
-            foreach ($DomainName in $Domain) {
+            foreach ($DomainName in $Name) {
                 try {
                     $Record = ReturnSPF $DomainName
                 }

@@ -1,14 +1,14 @@
 ---
 external help file: PSMailTools-help.xml
 Module Name: PSMailTools
-online version: 
+online version: https://github.com/omniomi/PSMailTools/blob/master/docs/en-US/Test-SPFRecord.md
 schema: 2.0.0
 ---
 
 # Test-SPFRecord
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+Check the validity of an SPF record.
 
 ## SYNTAX
 
@@ -28,21 +28,40 @@ Test-SPFRecord -InputObj <SPFRecord> [-Basic] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+Check the validity of either a provided plain text SPF record or a live SPF record on a provided domain.
+
+Basic: A basic check will ensure only a single SPF record is present, that it is formatted correctly, and that it is within the maximum length restrictions.
 
 ## EXAMPLES
 
 ### Example 1
 ```
-PS C:\> {{ Add example code here }}
+PS C:\> Test-SPFRecord google.com
 ```
 
-{{ Add example description here }}
+   Name: google.com
+
+Value         : v=spf1 include:_spf.google.com ~all
+RecordFound   : True
+FormatIsValid : True
+ValidLength   : True
+
+### Example 2
+```
+PS C:\> Test-SPFRecord -Record 'v=spf1 include:_spf.google.com ~all'
+```
+
+   Name: Unspecified
+
+Value         : v=spf1 include:_spf.google.com ~all
+RecordFound   : True
+FormatIsValid : True
+ValidLength   : True
 
 ## PARAMETERS
 
 ### -Basic
-{{Fill Basic Description}}
+Perform a basic validation.
 
 ```yaml
 Type: SwitchParameter
@@ -72,7 +91,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-{{Fill Name Description}}
+A domain name to perform SPF validation on.
 
 ```yaml
 Type: String
@@ -87,7 +106,7 @@ Accept wildcard characters: False
 ```
 
 ### -Value
-{{Fill Value Description}}
+A plain text record to validate.
 
 ```yaml
 Type: String
@@ -110,7 +129,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### System.Object
+### MailTools.Security.SPF.Validation_Basic
 
 ## NOTES
 

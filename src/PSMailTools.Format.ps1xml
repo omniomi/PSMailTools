@@ -61,13 +61,16 @@
                     <ListEntry>
                         <ListItems>
                             <ListItem>
+                                <PropertyName>Value</PropertyName>
+                            </ListItem>
+                            <ListItem>
                                 <PropertyName>RecordFound</PropertyName>
                             </ListItem>
                             <ListItem>
                                 <PropertyName>FormatIsValid</PropertyName>
                             </ListItem>
                             <ListItem>
-                                <PropertyName>Value</PropertyName>
+                                <PropertyName>ValidLength</PropertyName>
                             </ListItem>
                         </ListItems>
                     </ListEntry>

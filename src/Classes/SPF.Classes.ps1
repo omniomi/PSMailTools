@@ -37,9 +37,34 @@ namespace MailTools
             public class Validation_Basic
             {
                 public string Name { get; set; }
+                private string _Value;
                 public bool RecordFound { get; set; }
                 public bool FormatIsValid { get; set; }
-                public string Value { get; set; }
+                public bool ValidLength
+                {
+                    get
+                    {
+                        if (_Value.Length > 255)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            return true;
+                        }
+                    }
+                }
+                public string Value
+                {
+                    get
+                    {
+                        return _Value;
+                    }
+                    set
+                    {
+                        _Value = value;
+                    }
+                }
             }
         }
     }

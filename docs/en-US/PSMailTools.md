@@ -8,9 +8,20 @@ Locale: en-US
 
 # PSMailTools Module
 ## Description
-{{Manually Enter Description Here}}
+PowerShell tools for postmasters.
 
 ## PSMailTools Cmdlets
-### [Get-SPFRecord](Get-SPFRecord.md)
-{{Manually Enter Get-SPFRecord Description Here}}
+### [Get-DMARCRecord](Get-DMARCRecord.md)
+Retrieve DMARC record from a specified domain.
 
+### [Get-SPFRecord](Get-SPFRecord.md)
+Retrieve SPF record from a specified domain.
+
+### [Resolve-SPFRecord](Resolve-SPFRecord.md)
+Recursivly resolve lookups in the SPF record of a specified domain.
+
+### [Test-SPFRecord](Test-SPFRecord.md)
+Test the validity of a plain text SPF record or live SPF record using a specified domain.
+
+### [ConvertTo-SPFNestedString](ConvertTo-SPFNestedString.md)
+Converts an SPFRecord object to a hierarchy tree for easy visualization.

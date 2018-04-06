@@ -1,14 +1,14 @@
 ---
 external help file: PSMailTools-help.xml
 Module Name: PSMailTools
-online version: 
+online version: https://github.com/omniomi/PSMailTools/blob/master/docs/en-US/Get-SPFRecord.md
 schema: 2.0.0
 ---
 
 # Get-SPFRecord
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+Get the SPF record defined on the specified domain name.
 
 ## SYNTAX
 
@@ -17,21 +17,25 @@ Get-SPFRecord [-Name] <String[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+Returns any TXT records on the domain starting with v=spf1.
 
 ## EXAMPLES
 
 ### Example 1
 ```
-PS C:\> {{ Add example code here }}
+PS C:\> Get-SPFRecord google.com
+
+Name       Value
+----       -----
+google.com v=spf1 include:_spf.google.com ~all
 ```
 
-{{ Add example description here }}
+Returns the SPF record for the specified domain.
 
 ## PARAMETERS
 
 ### -Name
-{{Fill Name Description}}
+The domain name for which to retrieve the SPF record.
 
 ```yaml
 Type: String[]
@@ -54,7 +58,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### System.Object[]
+### MailTools.Security.SPF.SPFRecord[]
 
 ## NOTES
 

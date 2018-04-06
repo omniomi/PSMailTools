@@ -24,7 +24,7 @@ GUID = 'd328f66b-ad5c-4766-9400-b0b14abb5c3a'
 Author = 'Nick James'
 
 # Company or vendor of this module
-CompanyName = 'Unknown'
+CompanyName = 'Nick James'
 
 # Copyright statement for this module
 Copyright = '(c) 2018 Nick James. All rights reserved.'
@@ -51,7 +51,7 @@ Description = 'A collection of tools for email administrators.'
 # ProcessorArchitecture = ''
 
 # Modules that must be imported into the global environment prior to importing this module
-# RequiredModules = @()
+RequiredModules = 'DnsClient'
 
 # Assemblies that must be loaded prior to importing this module
 # RequiredAssemblies = @()
@@ -69,17 +69,17 @@ FormatsToProcess = 'PSMailTools.Format.ps1xml'
 # NestedModules = @()
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = 'ConvertTo-SPFNestedString', 'Get-DMARCRecord', 'Get-SPFRecord', 
+FunctionsToExport = 'ConvertTo-SPFNestedString', 'Get-DMARCRecord', 'Get-SPFRecord',
                'Resolve-SPFRecord', 'Test-SPFRecord'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
-CmdletsToExport = @()
+# CmdletsToExport = @()
 
 # Variables to export from this module
 # VariablesToExport = @()
 
 # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-AliasesToExport = @()
+# AliasesToExport = @()
 
 # DSC resources to export from this module
 # DscResourcesToExport = @()
@@ -96,13 +96,13 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        # Tags = @()
+        Tags = @('SPF','DMARC','Mail','Email','Postmaster')
 
         # A URL to the license for this module.
-        # LicenseUri = ''
+        LicenseUri = 'https://github.com/omniomi/PSMailTools/blob/master/LICENSE.txt'
 
         # A URL to the main website for this project.
-        # ProjectUri = ''
+        ProjectUri = 'https://github.com/omniomi/PSMailTools'
 
         # A URL to an icon representing this module.
         # IconUri = ''
@@ -111,7 +111,7 @@ PrivateData = @{
         # ReleaseNotes = ''
 
         # External dependent modules of this module
-        # ExternalModuleDependencies = ''
+        ExternalModuleDependencies = 'DnsClient'
 
     } # End of PSData hashtable
 
