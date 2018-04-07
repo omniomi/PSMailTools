@@ -23,8 +23,8 @@ function ReturnSPF {
         $SPFRecords = $TXTRecords | Where { $_.Strings -like "v=spf1*" } | Select @{n='String';e={-join $_.Strings}}
 
         if ($SPFRecords.Count -eq 0) {
-            $Exception = New-Object System.Data.ObjectNotFoundException ("The domain {0} has no SPF records." -f $Name)
-            $ErrCategory = [System.Management.Automation.ErrorCategory]::ObjectNotFound
+            $Exception = New-Object System.Management.Automation.ItemNotFoundException ("The domain {0} has no SPF record." -f $Name)
+            $ErrCategory = [System.Management.Automation.ErrorCategory]::ResourceUnavailable
             $ErrRecord = New-Object System.Management.Automation.ErrorRecord $Exception,'NoSpfRecord',$ErrCategory,$Name
             $PSCmdlet.ThrowTerminatingError($ErrRecord)
         }

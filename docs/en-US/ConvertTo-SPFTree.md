@@ -74,7 +74,7 @@ Output from Resolve-SPFRecord
 ```yaml
 Type: SPFRecord[]
 Parameter Sets: (All)
-Aliases:
+Aliases: 
 
 Required: False
 Position: 0

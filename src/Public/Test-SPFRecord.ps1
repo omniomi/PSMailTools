@@ -36,20 +36,25 @@ function Test-SPFRecord {
     }
 
     process {
-        switch ($PSCmdlet.ParameterSetName) {
-            'BasicValue' {
-                foreach ($Record in $Value) {
-                    ValidateSPFBasic -SPFRecord $Record
+        try {
+            switch ($PSCmdlet.ParameterSetName) {
+                'BasicValue' {
+                    foreach ($Record in $Value) {
+                        ValidateSPFBasic -SPFRecord $Record
+                    }
+                }
+                'BasicName' {
+                    foreach ($DomainName in $Name) {
+                        ValidateSPFBasic $DomainName
+                    }
+                }
+                'BasicObj' {
+                        ValidateSPFBasic $InputObj.Name $InputObj.Value
                 }
             }
-            'BasicName' {
-                foreach ($DomainName in $Name) {
-                    ValidateSPFBasic $DomainName
-                }
-            }
-            'BasicObj' {
-                    ValidateSPFBasic $InputObj.Name $InputObj.Value
-            }
+        }
+        catch {
+            $PSCmdlet.ThrowTerminatingError($PSItem)
         }
     }
 }
