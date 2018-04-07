@@ -45,7 +45,9 @@ function Test-SPFRecord {
                     }
                 }
                 'Object' {
+                    if ($InputObj.Value -match "v=spf1") {
                         ValidateSPF $InputObj.Name $InputObj.Value
+                    }
                 }
             }
         }

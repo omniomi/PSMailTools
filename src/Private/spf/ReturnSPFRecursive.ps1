@@ -36,15 +36,18 @@ function ReturnSPFRecursive {
         foreach ($Mechanism in $Mechanisms) {
             switch -Regex ($Mechanism) {
                 "^a$" {
-                    $Output = [MailTools.Security.SPF.Recursive]@{
+                    [MailTools.Security.SPF.Recursive]@{
                         Name  = 'a'
                         Value = ((Resolve-DnsName $Name -Type A).IPAddress)
                         Level = ($Level + 1)
                     }
                 }
+                "^a:.*$" {
+                    ### Recursive A
+                }
                 "^mx$" {
                     $MX = ((Resolve-DnsName $Name -Type MX).NameExchange)
-                    $Output = [MailTools.Security.SPF.Recursive]@{
+                    [MailTools.Security.SPF.Recursive]@{
                         Name = 'mx'
                         Value = $MX
                         Level = ($Level + 1)
@@ -60,6 +63,9 @@ function ReturnSPFRecursive {
                             }
                         }
                     }
+                }
+                "^mx:.*$" {
+                    ### Recursive MX
                 }
                 "(?:include|redirect):.*"  {
                     ReturnSPFRecursive -Name $_.Split(':')[-1] -Record (ReturnSPF $_.Split(':')[-1]) -Level ($Level + 1)
