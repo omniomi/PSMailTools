@@ -1,4 +1,4 @@
-function ConvertTo-SPFNestedString {
+function ConvertTo-SPFTree {
     [CmdletBinding()]
     [OutputType([System.String])]
     param (

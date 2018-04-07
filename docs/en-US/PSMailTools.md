@@ -23,5 +23,5 @@ Recursivly resolve lookups in the SPF record of a specified domain.
 ### [Test-SPFRecord](Test-SPFRecord.md)
 Test the validity of a plain text SPF record or live SPF record using a specified domain.
 
-### [ConvertTo-SPFNestedString](ConvertTo-SPFNestedString.md)
+### [ConvertTo-SPFTree](ConvertTo-SPFTree.md)
 Converts an SPFRecord object to a hierarchy tree for easy visualization.

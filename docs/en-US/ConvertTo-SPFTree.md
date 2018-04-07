@@ -1,11 +1,11 @@
 ---
 external help file: PSMailTools-help.xml
 Module Name: PSMailTools
-online version: https://github.com/omniomi/PSMailTools/blob/master/docs/en-US/ConvertTo-SPFNestedString.md
+online version: https://github.com/omniomi/PSMailTools/blob/master/docs/en-US/ConvertTo-SPFTree.md
 schema: 2.0.0
 ---
 
-# ConvertTo-SPFNestedString
+# ConvertTo-SPFTree
 
 ## SYNOPSIS
 Converts an SPFRecord object to a hierarchy tree for easy visualization.
@@ -13,7 +13,7 @@ Converts an SPFRecord object to a hierarchy tree for easy visualization.
 ## SYNTAX
 
 ```
-ConvertTo-SPFNestedString [[-InputObj] <SPFRecord[]>] [<CommonParameters>]
+ConvertTo-SPFTree [[-InputObj] <SPFRecord[]>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,7 +23,7 @@ Converts the output of Resolve-SPFRecord to a hierarchy tree for easy visualizat
 
 ### Example 1
 ```
-PS C:\> Resolve-SPFRecord google.com | ConvertTo-SPFNestedString
+PS C:\> Resolve-SPFRecord google.com | ConvertTo-SPFTree
 ----------------------------------------
 Domain:     google.com
 SPF Record: v=spf1 include:_spf.google.com ~all
@@ -74,7 +74,7 @@ Output from Resolve-SPFRecord
 ```yaml
 Type: SPFRecord[]
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: False
 Position: 0
