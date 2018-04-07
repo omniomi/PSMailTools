@@ -20,7 +20,7 @@ InModuleScope PSMailTools {
             (Get-SPFRecord example.com).Count | Should be 2
         }
 
-        It "Displays a waring when there is more than one record on a domain." {
+        It "Displays a warning when there is more than one record on a domain." {
             ((Get-SPFRecord example.com) 3>&1) -match "more than one SPF record" | Should Be $true
         }
     }
