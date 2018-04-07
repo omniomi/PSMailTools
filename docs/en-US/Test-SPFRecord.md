@@ -12,17 +12,17 @@ Check the validity of an SPF record.
 
 ## SYNTAX
 
-### BasicName (Default)
+### Name (Default)
 ```
 Test-SPFRecord [-Name] <String> [-Basic] [<CommonParameters>]
 ```
 
-### BasicValue
+### Value
 ```
 Test-SPFRecord -Value <String> [-Basic] [<CommonParameters>]
 ```
 
-### BasicObj
+### Object
 ```
 Test-SPFRecord -InputObj <SPFRecord> [-Basic] [<CommonParameters>]
 ```
@@ -80,7 +80,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: SPFRecord
-Parameter Sets: BasicObj
+Parameter Sets: Object
 Aliases: 
 
 Required: True
@@ -95,7 +95,7 @@ A domain name to perform SPF validation on.
 
 ```yaml
 Type: String
-Parameter Sets: BasicName
+Parameter Sets: Name
 Aliases: Domain
 
 Required: True
@@ -110,7 +110,7 @@ A plain text record to validate.
 
 ```yaml
 Type: String
-Parameter Sets: BasicValue
+Parameter Sets: Value
 Aliases: Record
 
 Required: True

@@ -34,13 +34,28 @@ namespace MailTools
                 public int Level { get; set; }
             }
 
-            public class Validation_Basic
+            public class Validation
             {
                 public string Name { get; set; }
                 private string _Value;
                 public bool RecordFound { get; set; }
                 public bool FormatIsValid { get; set; }
-                public bool ValidLength
+                public int LookupCount { get; set; }
+                public bool ValidLookupCount
+                {
+                    get
+                    {
+                        if (LookupCount <= 10)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+                public bool ValidUDPLength
                 {
                     get
                     {

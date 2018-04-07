@@ -50,7 +50,7 @@
         <View>
             <Name>SPFValidationBasic-List</Name>
             <ViewSelectedBy>
-                <TypeName>MailTools.Security.SPF.Validation_Basic</TypeName>
+                <TypeName>MailTools.Security.SPF.Validation</TypeName>
             </ViewSelectedBy>
             <GroupBy>
                 <PropertyName>Name</PropertyName>
@@ -70,7 +70,13 @@
                                 <PropertyName>FormatIsValid</PropertyName>
                             </ListItem>
                             <ListItem>
-                                <PropertyName>ValidLength</PropertyName>
+                                <PropertyName>ValidUDPLength</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                                <PropertyName>ValidLookupCount</PropertyName>
+                            </ListItem>
+                            <ListItem>
+                                <PropertyName>LookupCount</PropertyName>
                             </ListItem>
                         </ListItems>
                     </ListEntry>
