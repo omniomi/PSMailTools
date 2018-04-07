@@ -28,6 +28,10 @@ function Get-SPFRecord {
                 }
             }
 
+            if ($FinalOutput.Count -gt 1) {
+                $PSCmdlet.WriteWarning("The domain {0} has more than one SPF record. This is a violation of RFC 7208 s3.2 and may cause SPF to fail." -f $DomainName)
+            }
+
             return $FinalOutput
         }
     }
