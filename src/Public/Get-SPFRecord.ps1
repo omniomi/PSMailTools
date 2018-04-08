@@ -20,19 +20,17 @@ function Get-SPFRecord {
                 $PSCmdlet.ThrowTerminatingError($PSItem)
             }
 
+            if ($SPFRecord.Count -gt 1) {
+                $PSCmdlet.WriteWarning("The domain {0} has more than one SPF record. This is a violation of RFC 7208 s3.2 and may cause SPF to fail." -f $DomainName)
+            }
+
             # Handle multiple records. (Not valid as per RFC 7208 s3.2)
-            $FinalOutput = foreach ($Record in $SPFRecord) {
+            foreach ($Record in $SPFRecord) {
                 [MailTools.Security.SPF.SPFRecord]@{
                     Name  = $DomainName
                     Value = $Record
                 }
             }
-
-            if ($FinalOutput.Count -gt 1) {
-                $PSCmdlet.WriteWarning("The domain {0} has more than one SPF record. This is a violation of RFC 7208 s3.2 and may cause SPF to fail." -f $DomainName)
-            }
-
-            return $FinalOutput
         }
     }
 }
