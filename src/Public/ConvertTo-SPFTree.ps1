@@ -22,14 +22,21 @@ function ConvertTo-SPFTree {
                 switch -Regex ($Row) {
                     "^a$" { (IndentRow $Obj.Level) + $Row ; DisplayObject ($Objects | Where { $_.Name -eq 'a' -and $_.Level -eq ($Obj.Level + 1) }) }
                     "^mx$" {
+                        # Show 'mx' once
                         (IndentRow $Obj.Level) + $Row
-                        $MXRow = DisplayObject ($Objects | Where { $_.Name -eq 'mx' -and $_.Level -eq ($Obj.Level + 1) })
-                        [regex]$IPRegex = "(?:\d{1,3}\.){3}\d{1,3}"
-                        if ($MXRow -notmatch $IPRegex) {
-                            $MXRow
-                            (IndentRow ($Obj.Level + 2)) + (($Objects | Where { $_.Name -eq ($MXRow.Split(' ')[-1]) }).Value)
-                        } else {
-                            $MXRow
+
+                        # Handle multiple MX records. Should be one level below current SPF record and name equal to 'mx'.
+                        $MXRows = $Objects | Where { $_.Name -eq 'mx' -and $_.Level -eq ($Obj.Level + 1) }
+
+                        foreach ($MXRow in $MXRows) {
+                            $MXRowDisplay = DisplayObject $MXRow
+                            [regex]$IPRegex = "(?:\d{1,3}\.){3}\d{1,3}"
+                            if ($MXRowDisplay -notmatch $IPRegex) {
+                                $MXRowDisplay
+                                (IndentRow ($Obj.Level + 2)) + (($Objects | Where { $_.Name -eq ($MXRowDisplay.Split(' ')[-1]) }).Value)
+                            } else {
+                                $MXRowDisplay
+                            }
                         }
                     }
                     "ip(?:4|6):.*" { (IndentRow $Obj.Level) + $Row }

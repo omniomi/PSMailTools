@@ -47,10 +47,12 @@ function ReturnSPFRecursive {
                 }
                 "^mx$" {
                     $MX = ((Resolve-DnsName $Name -Type MX).NameExchange)
-                    [MailTools.Security.SPF.Recursive]@{
-                        Name = 'mx'
-                        Value = $MX
-                        Level = ($Level + 1)
+                    foreach ($MXRecord in $MX) {
+                        [MailTools.Security.SPF.Recursive]@{
+                            Name = 'mx'
+                            Value = $MXRecord
+                            Level = ($Level + 1)
+                        }
                     }
 
                     [regex]$IPRegex = "(?:\d{1,3}\.){3}\d{1,3}"
