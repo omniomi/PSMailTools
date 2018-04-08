@@ -31,7 +31,8 @@ namespace MailTools
 
             public class Recursive : SPFRecord
             {
-                public int Level { get; set; }
+                public int Id { get; set; }
+                public int Parent { get; set; }
             }
 
             public class Validation

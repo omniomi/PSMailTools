@@ -15,23 +15,41 @@ function ReturnSPFRecursive {
         # Track Recursion
         [Parameter()]
         [Int]
-        $Level = 0
+        $Parent
     )
 
     try {
-        $Level = $Level++
-
         if ($Name -and -not($Record)) {
             $Record = ReturnSPF $Name
         }
 
         $Mechanisms = $Record.Split(' ') | Where { $_ -notlike "ip*" }
 
+        Write-Verbose $RecursiveID
+
+        # ID Initialize
+        if (-not($RecursiveID)) {
+            $Script:RecursiveID = 1
+        }
+        if ($Parent) {
+            Write-Verbose 'HERE'
+            $Parent = $Parent
+        } else {
+            $Parent = 0
+        }
+
+        Write-Verbose $RecursiveID
+
         [MailTools.Security.SPF.Recursive]@{
             Name  = $Name
             Value = $Record
-            Level = $Level
+            ID = $RecursiveID
+            Parent = $Parent
         }
+        $Parent = $RecursiveID
+        $RecursiveID++
+
+        Write-Verbose $RecursiveID
 
         foreach ($Mechanism in $Mechanisms) {
             switch -Regex ($Mechanism) {
@@ -39,38 +57,54 @@ function ReturnSPFRecursive {
                     [MailTools.Security.SPF.Recursive]@{
                         Name  = 'a'
                         Value = ((Resolve-DnsName $Name -Type A).IPAddress)
-                        Level = ($Level + 1)
+                        ID = $RecursiveID
+                        Parent = $Parent
                     }
+                    $RecursiveID++
                 }
                 "^a:.*$" {
                     ### Recursive A
                 }
-                "^mx$" {
-                    $MX = ((Resolve-DnsName $Name -Type MX).NameExchange)
-                    foreach ($MXRecord in $MX) {
-                        [MailTools.Security.SPF.Recursive]@{
-                            Name = 'mx'
-                            Value = $MXRecord
-                            Level = ($Level + 1)
-                        }
+                "^mx.*" {
+                    if ($_ -match [regex]"^mx$") {
+                        $MX = ((Resolve-DnsName $Name -Type MX).NameExchange)
+                        $MXName = 'mx'
+                    } elseif ($_ -match [regex]"^mx:.*") {
+                        $MXDomain = $_.Split(':')[-1]
+                        $MX = ((Resolve-DnsName $MXDomain -Type MX).NameExchange)
+                        $MXName = 'mx:' + $MXDomain
                     }
 
-                    [regex]$IPRegex = "(?:\d{1,3}\.){3}\d{1,3}"
-                    foreach ($MXS in $MX) {
-                        if ($MXS -notmatch $IPRegex) {
+                    foreach ($MXRecord in $MX) {
+                        [MailTools.Security.SPF.Recursive]@{
+                            Name = $MXName
+                            Value = $MXRecord
+                            ID = $RecursiveID
+                            Parent = $Parent
+                        }
+                        $MXParent = $RecursiveID
+                        $RecursiveID++
+
+                        if ($MXRecord -notmatch [regex]"(?:\d{1,3}\.){3}\d{1,3}") {
                             [MailTools.Security.SPF.Recursive]@{
-                                Name = $MXS
-                                Value = (ResolveMX $MXS)
-                                Level = ($Level + 2)
+                                Name = $MXRecord
+                                Value = (ResolveMX $MXRecord)
+                                ID = $RecursiveID
+                                Parent = $MXParent
                             }
+                            $RecursiveID++
                         }
                     }
                 }
-                "^mx:.*$" {
-                    ### Recursive MX
+                "include:.*"  {
+                    $Recursion = ReturnSPFRecursive -Name $_.Split(':')[-1] -Record (ReturnSPF $_.Split(':')[-1]) -Parent $Parent
+                    $RecursiveID = ($Recursion[-1].Id) + 1
+                    $Recursion
                 }
-                "(?:include|redirect):.*"  {
-                    ReturnSPFRecursive -Name $_.Split(':')[-1] -Record (ReturnSPF $_.Split(':')[-1]) -Level ($Level + 1)
+                "redirect=.*"  {
+                    $Recursion = ReturnSPFRecursive -Name $_.Split('=')[-1] -Parent $Parent
+                    $RecursiveID = ($Recursion[-1].Id) + 1
+                    $Recursion
                 }
             }
         }
