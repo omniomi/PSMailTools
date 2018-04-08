@@ -5,15 +5,15 @@ function Resolve-SPFRecord {
         # Domain name to retrieve SPF record for
         [Parameter(Mandatory,
                    Position=0,
-                   ValueFromPipelineByPropertyName,
                    ParameterSetName='Default')]
         [Alias('Domain')]
         [String[]]
         $Name,
 
         [Parameter(Mandatory,
+                   ValueFromPipeline,
                    ParameterSetName='InputObj')]
-        [MailTools.Security.SPF.SPFRecord]
+        [MailTools.Security.SPF.SPFRecord[]]
         $InputObj
     )
 

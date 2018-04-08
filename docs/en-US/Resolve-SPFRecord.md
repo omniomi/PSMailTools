@@ -19,7 +19,7 @@ Resolve-SPFRecord [-Name] <String[]> [<CommonParameters>]
 
 ### InputObj
 ```
-Resolve-SPFRecord -InputObj <SPFRecord> [<CommonParameters>]
+Resolve-SPFRecord -InputObj <SPFRecord[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -63,14 +63,14 @@ Pipe the results of Get-SPFRecord to follow lookups.
 {{Fill InputObj Description}}
 
 ```yaml
-Type: SPFRecord
+Type: SPFRecord[]
 Parameter Sets: InputObj
 Aliases: 
 
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
@@ -85,7 +85,7 @@ Aliases: Domain
 Required: True
 Position: 0
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
