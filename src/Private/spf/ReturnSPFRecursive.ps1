@@ -53,17 +53,25 @@ function ReturnSPFRecursive {
 
         foreach ($Mechanism in $Mechanisms) {
             switch -Regex ($Mechanism) {
-                "^a$" {
-                    [MailTools.Security.SPF.Recursive]@{
-                        Name  = 'a'
-                        Value = ((Resolve-DnsName $Name -Type A).IPAddress)
-                        ID = $RecursiveID
-                        Parent = $Parent
+                "^a.*" {
+                    if ($_ -match [regex]"^a$") {
+                        $ARec = ((Resolve-DnsName $Name -Type A).IPAddress)
+                        $AName = 'a'
+                    } elseif ($_ -match [regex]"^a:.*") {
+                        $ADomain = $_.Split(':')[-1]
+                        $ARec = ((Resolve-DnsName $ADomain -Type A).IPAddress)
+                        $AName = 'a:' + $ADomain
                     }
-                    $RecursiveID++
-                }
-                "^a:.*$" {
-                    ### Recursive A
+
+                    foreach ($ARecord in $ARec) {
+                        [MailTools.Security.SPF.Recursive]@{
+                            Name = $AName
+                            Value = $ARecord
+                            ID = $RecursiveID
+                            Parent = $Parent
+                        }
+                        $RecursiveID++
+                    }
                 }
                 "^mx.*" {
                     if ($_ -match [regex]"^mx$") {

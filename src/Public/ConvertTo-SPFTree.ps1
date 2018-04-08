@@ -37,7 +37,14 @@ function ConvertTo-SPFTree {
 
             foreach ($Row in $Rows) {
                 switch -Regex ($Row) {
-                    "^a$" { (IndentRow $Obj.Id) + $Row ; DisplayObject ($Objects | Where { $_.Name -eq 'a' -and $_.Parent -eq $Obj.Id }) }
+                    "^a.*" {
+                        (IndentRow $Obj.Id) + $Row
+                        $AObjects = ($Objects | Where { $_.Name -match [regex]"^a.*" -and $_.Parent -eq $Obj.Id })
+
+                        foreach ($AObj in $AObjects) {
+                            DisplayObject $AObj
+                        }
+                    }
                     "^mx$" {
                         (IndentRow $Obj.Id) + $Row
                         $MXObj = ($Objects | Where { $_.Name -eq 'mx' -and $_.Parent -eq $Obj.Id })
