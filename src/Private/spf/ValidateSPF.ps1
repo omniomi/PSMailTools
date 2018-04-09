@@ -2,7 +2,7 @@ function ValidateSPF {
     [cmdletbinding()]
     param(
         [String]
-        $DomainName = 'Unspecified',
+        $Name = 'Unspecified',
 
         [String]
         $SPFRecord
@@ -37,25 +37,36 @@ function ValidateSPF {
                         "[Ee][Xx][Pp]=(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]" +
                         "([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\})|[A-Za-z][-.0-9A-Z_a-z]*=(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*))* *$"
 
-        $Output = New-Object -TypeName MailTools.Security.SPF.Validation
-        $Output.Name = $DomainName
 
-        if (-not($SPFRecord)) {
-            $SPFRecord = ReturnSPF $DomainName
+        if ($Name -and -not($SPFRecord)) {
+            $Record = ReturnSPF $Name
+        } elseif ($SPFRecord) {
+            $Record = $SPFRecord
         }
-        $Output.RecordFound = $true
-        $Output.Value = $SPFRecord
 
-        if ($SPFRecord -match $SPFRegex) {
+        if ($Record.Count -gt 1) {
+            $Exception = New-Object System.ArgumentException  ("The domain {0} has more than one SPF record." -f $Name)
+            $ErrCategory = [System.Management.Automation.ErrorCategory]::InvalidResult
+            $ErrRecord = New-Object System.Management.Automation.ErrorRecord $Exception,'NumberOfSpfRecords',$ErrCategory,$Name
+            $PSCmdlet.ThrowTerminatingError($ErrRecord)
+        }
+
+        $Output = New-Object -TypeName MailTools.Security.SPF.Validation
+        $Output.Name = $Name
+
+        $Output.RecordFound = $true
+        $Output.Value = $Record
+
+        if ($Record -match $SPFRegex) {
             $Output.FormatIsValid = $true
         } else {
             $Output.FormatIsValid = $false
         }
 
         $Lookups = @('include','a','mx','ptr','exists')
-        $Output.LookupCount = ((-join (Resolve-SPFRecord $DomainName).Value).Split(' ').Split(':') | Where { $_ -in $Lookups }).Count
+        $Output.LookupCount = ((-join (Resolve-SPFRecord $Name).Value).Split(' ').Split(':') | Where { $_ -in $Lookups }).Count
 
-        return $Output
+        $Output
     }
     catch {
         $PSCmdlet.ThrowTerminatingError($PSItem)

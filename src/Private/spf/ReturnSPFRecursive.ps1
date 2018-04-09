@@ -25,20 +25,15 @@ function ReturnSPFRecursive {
 
         $Mechanisms = $Record.Split(' ') | Where { $_ -notlike "ip*" }
 
-        Write-Verbose $RecursiveID
-
         # ID Initialize
         if (-not($RecursiveID)) {
             $Script:RecursiveID = 1
         }
         if ($Parent) {
-            Write-Verbose 'HERE'
             $Parent = $Parent
         } else {
             $Parent = 0
         }
-
-        Write-Verbose $RecursiveID
 
         [MailTools.Security.SPF.Recursive]@{
             Name  = $Name
@@ -48,8 +43,6 @@ function ReturnSPFRecursive {
         }
         $Parent = $RecursiveID
         $RecursiveID++
-
-        Write-Verbose $RecursiveID
 
         foreach ($Mechanism in $Mechanisms) {
             switch -Regex ($Mechanism) {

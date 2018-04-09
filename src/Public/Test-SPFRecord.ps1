@@ -21,14 +21,7 @@ function Test-SPFRecord {
                    ValueFromPipeline,
                    ParameterSetName='Object')]
         [MailTools.Security.SPF.SPFRecord]
-        $InputObj,
-
-        # Basic Validation
-        [Parameter(ParameterSetName='Value')]
-        [Parameter(ParameterSetName='Name')]
-        [Parameter(ParameterSetName='Object')]
-        [Switch]
-        $Basic
+        $InputObj
     )
 
     process {
@@ -45,8 +38,10 @@ function Test-SPFRecord {
                     }
                 }
                 'Object' {
-                    if ($InputObj.Value -match "v=spf1") {
-                        ValidateSPF $InputObj.Name $InputObj.Value
+                    foreach ($Obj in $InputObj) {
+                        if ($InputObj.Value -match "v=spf1") {
+                            ValidateSPF -Name $Obj.Name -SPFRecord $Obj.Value
+                        }
                     }
                 }
             }

@@ -14,17 +14,17 @@ Check the validity of an SPF record.
 
 ### Name (Default)
 ```
-Test-SPFRecord [-Name] <String> [-Basic] [<CommonParameters>]
+Test-SPFRecord [-Name] <String> [<CommonParameters>]
 ```
 
 ### Value
 ```
-Test-SPFRecord -Value <String> [-Basic] [<CommonParameters>]
+Test-SPFRecord -Value <String> [<CommonParameters>]
 ```
 
 ### Object
 ```
-Test-SPFRecord -InputObj <SPFRecord> [-Basic] [<CommonParameters>]
+Test-SPFRecord -InputObj <SPFRecord> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -59,21 +59,6 @@ FormatIsValid : True
 ValidLength   : True
 
 ## PARAMETERS
-
-### -Basic
-Perform a basic validation.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: 
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ### -InputObj
 {{Fill InputObj Description}}

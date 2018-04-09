@@ -29,12 +29,9 @@ function ReturnSPF {
             $PSCmdlet.ThrowTerminatingError($ErrRecord)
         }
 
-        $Output = foreach ($String in $SPFRecords) {
+        foreach ($String in $SPFRecords) {
             $String.String
         }
-
-        return $Output
-
     } catch {
         $PSCmdlet.ThrowTerminatingError($PSItem)
     }
