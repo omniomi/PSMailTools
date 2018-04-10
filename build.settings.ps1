@@ -151,7 +151,35 @@ Task BeforeStageFiles {
 }
 
 # Executes after the StageFiles task.
-Task AfterStageFiles {
+Task AfterStageFiles -depends ExportPublicFunctions {
+}
+
+# Add public functions to module manifest.
+## Issues with tab-complete may happen when using Export-ModuleMember. It's better to specify the functions in the manifest.
+Task ExportPublicFunctions -requiredVariables SrcRootDir, ModuleOutDir, ModuleName {
+    $PublicScriptFiles = @(Get-ChildItem "$SrcRootDir\Public" -Filter *.ps1 -Recurse)
+
+    $PublicFunctions = @(foreach ($ScriptFile in $PublicScriptFiles) {
+        $Parser = [System.Management.Automation.Language.Parser]::ParseFile($ScriptFile.FullName, [ref] $null, [ref] $null)
+        if ($Parser.EndBlock.Statements.Name) {
+            $Parser.EndBlock.Statements.Name
+        }
+    })
+
+    Update-ModuleManifest -Path "$ModuleOutDir\$ModuleName.psd1" -FunctionsToExport $PublicFunctions
+}
+
+Task ExportPublicFunctionsToSrc -requiredVariables SrcRootDir, ModuleOutDir, ModuleName {
+    $PublicScriptFiles = @(Get-ChildItem "$SrcRootDir\Public" -Filter *.ps1 -Recurse)
+
+    $PublicFunctions = @(foreach ($ScriptFile in $PublicScriptFiles) {
+        $Parser = [System.Management.Automation.Language.Parser]::ParseFile($ScriptFile.FullName, [ref] $null, [ref] $null)
+        if ($Parser.EndBlock.Statements.Name) {
+            $Parser.EndBlock.Statements.Name
+        }
+    })
+
+    Update-ModuleManifest -Path "$SrcRootDir\$ModuleName.psd1" -FunctionsToExport $PublicFunctions
 }
 
 ###############################################################################

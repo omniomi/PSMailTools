@@ -89,19 +89,6 @@ Task Init -requiredVariables OutDir {
     }
 }
 
-Task ExportPublicFunctions -requiredVariables SrcRootDir, ModuleName {
-    $PublicScriptFiles = @(Get-ChildItem "$SrcRootDir\Public" -Filter *.ps1 -Recurse)
-
-    $PublicFunctions = @(foreach ($ScriptFile in $PublicScriptFiles) {
-        $Parser = [System.Management.Automation.Language.Parser]::ParseFile($ScriptFile.FullName, [ref] $null, [ref] $null)
-        if ($Parser.EndBlock.Statements.Name) {
-            $Parser.EndBlock.Statements.Name
-        }
-    })
-
-    Update-ModuleManifest -Path "$SrcRootDir\$ModuleName.psd1" -FunctionsToExport $PublicFunctions
-}
-
 Task Clean -depends Init -requiredVariables OutDir {
     if ($OutDir.Length -gt 3) {
         Get-ChildItem $OutDir | Remove-Item -Recurse -Force -Verbose:$VerbosePreference
@@ -111,7 +98,7 @@ Task Clean -depends Init -requiredVariables OutDir {
     }
 }
 
-Task StageFiles -depends Init, Clean, ExportPublicFunctions, BeforeStageFiles, CoreStageFiles, AfterStageFiles {
+Task StageFiles -depends Init, Clean, BeforeStageFiles, CoreStageFiles, AfterStageFiles {
 }
 
 Task CoreStageFiles -requiredVariables ModuleOutDir, SrcRootDir {
@@ -122,7 +109,23 @@ Task CoreStageFiles -requiredVariables ModuleOutDir, SrcRootDir {
         Write-Verbose "$($psake.context.currentTaskName) - directory already exists '$ModuleOutDir'."
     }
 
-    Copy-Item -Path $SrcRootDir\* -Destination $ModuleOutDir -Recurse -Exclude $Exclude -Verbose:$VerbosePreference
+    $FunctionFolders = @("Private","Public")
+    [regex] $FunctionFoldersRegEx = '(?i)' + (($FunctionFolders | ForEach-Object {[regex]::escape($_)}) -join "|") + ''
+
+    # Copy all but Public and Private
+    Get-ChildItem -Path $SrcRootDir -Recurse |
+        Where-Object { $_.FullName.Replace($SrcRootDir, "") -notmatch $FunctionFoldersRegEx } |
+        Copy-Item -Destination { if ($_.PSIsContainer) { Join-Path $ModuleOutDir $_.Parent.FullName.Substring($SrcRootDir.length) } else { Join-Path $ModuleOutDir $_.FullName.Substring($SrcRootDir.length) } } -Force
+
+    # Copy contents of Public and Private files instead of the files themselves.
+    $PublicFunctions = Get-ChildItem (Join-Path $SrcRootDir 'Public') -Filter *.ps1 -Recurse
+    $PrivateFunctions = Get-ChildItem (Join-Path $SrcRootDir 'Private') -Filter *.ps1 -Recurse
+    $PublicFile = Join-Path $ModuleOutDir 'Public\PublicFunctions.ps1'
+    $PrivateFile = Join-Path $ModuleOutDir 'Private\PrivateFunctions.ps1'
+    New-Item $PublicFile -Force | Out-Null
+    New-Item $PrivateFile -Force | Out-Null
+    Get-Content $PublicFunctions.FullName | Out-File $PublicFile -Force
+    Get-Content $PrivateFunctions.FullName | Out-File $PrivateFile -Force
 }
 
 Task Build -depends Init, Clean, BeforeBuild, StageFiles, Analyze, Sign, AfterBuild {

@@ -89,12 +89,12 @@
             ]
         },
         {
-            "taskName": "ExportPublicFunctions",
+            "taskName": "ExportPublicFunctionsToSrc",
             "suppressTaskName": true,
             "showOutput": "always",
             "args": [
-                "Write-Host 'Invoking psake on build.psake.ps1 -taskList ExportPublicFunctions'; Invoke-psake build.psake.ps1 -taskList ExportPublicFunctions;",
-                "Invoke-Command { Write-Host 'Completed ExportPublicFunctions task in task runner.' }"
+                "Write-Host 'Invoking psake on build.psake.ps1 -taskList ExportPublicFunctionsToSrc'; Invoke-psake build.psake.ps1 -taskList ExportPublicFunctionsToSrc;",
+                "Invoke-Command { Write-Host 'Completed ExportPublicFunctionsToSrc task in task runner.' }"
             ]
         },
         {
