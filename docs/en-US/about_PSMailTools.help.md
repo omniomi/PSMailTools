@@ -23,4 +23,3 @@ Planned abilities (not limited to)
 * Perform common MicroSoft SMTP Server tasks.
 * Interface with different mail testing APIs.
 * Parse email headers.
-

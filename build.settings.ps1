@@ -191,23 +191,7 @@ Task BeforeBuild {
 }
 
 # Executes after the Build task.
-Task AfterBuild -depends ZipRelease {
-}
-
-Task ZipRelease -requiredVariables ModuleOutDir, OutDir, ModuleName {
-    if (Test-Path $ModuleOutDir) {
-        if (Get-Command Compress-Archive) {
-            $VersionString = (Test-ModuleManifest (Join-Path $ModuleOutDir "$ModuleName.psd1")).Version.ToString()
-            $ZipName = $ModuleName + '_v' + $VersionString + '.zip'
-            Compress-Archive -Path $ModuleOutDir -DestinationPath (Join-Path $OutDir $ZipName)
-        } else {
-            "Compress-Archive command not found. Skipping $($psake.context.currentTaskName) task."
-            return
-        }
-    } else {
-        "ModuleOutDir ($ModuleOutDir) not found. Skipping $($psake.context.currentTaskName) task."
-        return
-    }
+Task AfterBuild {
 }
 
 ###############################################################################
@@ -268,6 +252,26 @@ Task BeforePublish {
 
 # Executes after the Publish task.
 Task AfterPublish {
+}
+
+###############################################################################
+# Zip tasks
+###############################################################################
+
+Task ZipRelease -depends Build, BuildHelp, GenerateFileCatalog -requiredVariables ModuleOutDir, OutDir, ModuleName {
+    if (Test-Path $ModuleOutDir) {
+        if (Get-Command Compress-Archive) {
+            $VersionString = (Test-ModuleManifest (Join-Path $ModuleOutDir "$ModuleName.psd1")).Version.ToString()
+            $ZipName = $ModuleName + '_v' + $VersionString + '.zip'
+            Compress-Archive -Path $ModuleOutDir -DestinationPath (Join-Path $OutDir $ZipName) -Force
+        } else {
+            "Compress-Archive command not found. Skipping $($psake.context.currentTaskName) task."
+            return
+        }
+    } else {
+        "ModuleOutDir ($ModuleOutDir) not found. Skipping $($psake.context.currentTaskName) task."
+        return
+    }
 }
 
 ###############################################################################
