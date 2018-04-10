@@ -191,7 +191,23 @@ Task BeforeBuild {
 }
 
 # Executes after the Build task.
-Task AfterBuild {
+Task AfterBuild -depends ZipRelease {
+}
+
+Task ZipRelease -requiredVariables ModuleOutDir, OutDir, ModuleName {
+    if (Test-Path $ModuleOutDir) {
+        if (Get-Command Compress-Archive) {
+            $VersionString = (Test-ModuleManifest (Join-Path $ModuleOutDir "$ModuleName.psd1")).Version.ToString()
+            $ZipName = $ModuleName + '_v' + $VersionString + '.zip'
+            Compress-Archive -Path $ModuleOutDir -DestinationPath (Join-Path $OutDir $ZipName)
+        } else {
+            "Compress-Archive command not found. Skipping $($psake.context.currentTaskName) task."
+            return
+        }
+    } else {
+        "ModuleOutDir ($ModuleOutDir) not found. Skipping $($psake.context.currentTaskName) task."
+        return
+    }
 }
 
 ###############################################################################
@@ -252,4 +268,58 @@ Task BeforePublish {
 
 # Executes after the Publish task.
 Task AfterPublish {
+}
+
+###############################################################################
+# Version number tasks.
+###############################################################################
+
+Task VersionIncMajor -requiredVariables SrcRootDir, ModuleName {
+    $Manifest = (Join-Path $SrcRootDir "$ModuleName.psd1")
+    $NewVersion = IncrimentVersion $Manifest -Major
+    Update-ModuleManifest $Manifest -ModuleVersion $NewVersion
+}
+
+Task VersionIncMinor -requiredVariables SrcRootDir, ModuleName {
+    $Manifest = (Join-Path $SrcRootDir "$ModuleName.psd1")
+    $NewVersion = IncrimentVersion $Manifest -Minor
+    Update-ModuleManifest $Manifest -ModuleVersion $NewVersion
+}
+
+Task VersionIncBuild -requiredVariables SrcRootDir, ModuleName {
+    $Manifest = (Join-Path $SrcRootDir "$ModuleName.psd1")
+    $NewVersion = IncrimentVersion $Manifest -Build
+    Update-ModuleManifest $Manifest -ModuleVersion $NewVersion
+}
+
+Task VersionIncRevision -requiredVariables SrcRootDir, ModuleName {
+    $Manifest = (Join-Path $SrcRootDir "$ModuleName.psd1")
+    $NewVersion = IncrimentVersion $Manifest -Revision
+    Update-ModuleManifest $Manifest -ModuleVersion $NewVersion
+}
+
+function IncrimentVersion {
+    param (
+        [parameter(Position=0)]
+        [string]$Path,
+        [parameter(ParameterSetName='Major')]
+        [switch]$Major,
+        [parameter(ParameterSetName='Minor')]
+        [switch]$Minor,
+        [parameter(ParameterSetName='Build')]
+        [switch]$Build,
+        [parameter(ParameterSetName='Revision')]
+        [switch]$Revision
+    )
+
+    $CVer = (Test-ModuleManifest $Path).Version
+
+    switch ($PSCmdlet.ParameterSetName) {
+        'Major'    { $NewVersion = New-Object System.Version(($CVer.Major + 1),0,0) }
+        'Minor'    { $NewVersion = New-Object System.Version($CVer.Major,($CVer.Minor + 1),0) }
+        'Build'    { $NewVersion = New-Object System.Version($CVer.Major,$CVer.Minor,($CVer.Build + 1)) }
+        'Revision' { if ($CVer.Revision -gt 1) { $NewVersion = New-Object System.Version($CVer.Major,$CVer.Minor,$CVer.Build,($CVer.Revision + 1)) } else { $NewVersion = New-Object System.Version($CVer.Major,$CVer.Minor,$CVer.Build,1) } }
+    }
+
+    return $NewVersion
 }

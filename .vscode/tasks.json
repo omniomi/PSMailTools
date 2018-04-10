@@ -98,6 +98,24 @@
             ]
         },
         {
+            "taskName": "VersionIncBuild",
+            "suppressTaskName": true,
+            "showOutput": "always",
+            "args": [
+                "Write-Host 'Invoking psake on build.psake.ps1 -taskList VersionIncBuild'; Invoke-psake build.psake.ps1 -taskList VersionIncBuild;",
+                "Invoke-Command { Write-Host 'Completed VersionIncBuild task in task runner.' }"
+            ]
+        },
+        {
+            "taskName": "VersionIncRevision",
+            "suppressTaskName": true,
+            "showOutput": "always",
+            "args": [
+                "Write-Host 'Invoking psake on build.psake.ps1 -taskList VersionIncRevision'; Invoke-psake build.psake.ps1 -taskList VersionIncRevision;",
+                "Invoke-Command { Write-Host 'Completed VersionIncRevision task in task runner.' }"
+            ]
+        },
+        {
             "taskName": "Test",
             "suppressTaskName": true,
             "isTestCommand": true,
