@@ -1,3 +1,4 @@
+# src\Public\Get-DMARCRecord.ps1
 function Get-DMARCRecord {
     [CmdletBinding()]
     [OutputType('MailTools.Security.DMARC.DMARCRecord')]

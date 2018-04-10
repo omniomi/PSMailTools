@@ -1,7 +1,4 @@
-
-# -------------------------- Load Script Files ----------------------------
-#
-# All functions in .\Public are added to the manifest during build.
+# --------------------------- Load Loose Files ----------------------------
 #
 $ModuleScriptFiles = @(Get-ChildItem -Path $PSScriptRoot -Filter *.ps1 -Recurse  | Where-Object { $_.Name -notlike "*.ps1xml" } )
 
@@ -14,3 +11,6 @@ foreach ($ScriptFile in $ModuleScriptFiles) {
        Write-Error "Error loading script file $($ScriptFile.FullName)"
     }
 }
+
+# --------------------------- Public Functions ----------------------------
+#

@@ -1,3 +1,4 @@
+# src\Public\Resolve-SPFRecord.ps1
 function Resolve-SPFRecord {
     [CmdletBinding(DefaultParameterSetName='Default')]
     [OutputType('MailTools.Security.SPF.Recursive')]

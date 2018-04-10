@@ -1,3 +1,4 @@
+# src\Public\Get-SPFRecord.ps1
 function Get-SPFRecord {
     [CmdletBinding()]
     [OutputType('MailTools.Security.SPF.SPFRecord')]
