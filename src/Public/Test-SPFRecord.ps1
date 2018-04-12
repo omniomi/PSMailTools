@@ -42,7 +42,10 @@ function Test-SPFRecord {
 
                             if ($Match) { break }
                         } else {
-                            if ($IP -eq $FindIP) {
+                            if ($IP -like "ip4*") { $IPAddr = $IP.Split(':')[1] }
+                            else { $IPAddr = $IP }
+
+                            if ($IPAddr -eq $FindIP) {
                                 $Match = $true
                                 break
                             }
