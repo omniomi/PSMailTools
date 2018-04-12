@@ -2,7 +2,9 @@
 
 PowerShell tools for postmasters.
 
-_NOTE: This project is still in early development and you may encounter strange bugs and non-descript error messages. Keep an eye out for regular updates and improvements of the existing functionality and later the release of new tools. If you'd like to contribute, please send a pull request!_
+> _NOTE: This project is still in early development and you may encounter strange bugs and non-descript error messages. Keep an eye out for regular updates and improvements of the existing functionality and later the release of new tools. If you'd like to contribute, please send a pull request!_
+
+Release Notes: [ReleaseNotes.md](ReleaseNotes.md)
 
 ## Installing and Running
 

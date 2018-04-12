@@ -1,3 +1,4 @@
+
 # src\Public\ConvertTo-SPFTree.ps1
 function ConvertTo-SPFTree {
     [CmdletBinding()]
@@ -9,7 +10,7 @@ function ConvertTo-SPFTree {
     )
 
     begin {
-        $Script:Objects = @()
+        $Script:Objects = New-Object 'System.Collections.Generic.List[System.Object]'
 
         function CalculateIndent ($Obj) {
             $Script:IndentTable = @{}
@@ -46,21 +47,9 @@ function ConvertTo-SPFTree {
                             DisplayObject $AObj
                         }
                     }
-                    "^mx$" {
+                    "^mx" {
                         (IndentRow $Obj.Id) + $Row
-                        $MXObj = ($Objects | Where { $_.Name -eq 'mx' -and $_.Parent -eq $Obj.Id })
-                        $MXRow = DisplayObject $MXObj
-                        $MXRow
-
-                        if ($MXRow -notmatch [regex]"(?:\d{1,3}\.){3}\d{1,3}") {
-                            $Nested = ($Objects | Where { $_.Parent -eq $MXObj.Id })
-                            DisplayObject $Nested
-                        }
-
-                    }
-                    "^mx:.*" {
-                        (IndentRow $Obj.Id) + $Row
-                        $MXObjs = ($Objects | Where { $_.Name -like "mx:*" -and $_.Parent -eq $Obj.Id })
+                        $MXObjs = ($Objects | Where { $_.Name -like "mx*" -and $_.Parent -eq $Obj.Id })
 
                         foreach ($MXObj in $MXObjs ) {
                             $MXRow = DisplayObject $MXObj
@@ -83,7 +72,7 @@ function ConvertTo-SPFTree {
     }
 
     process {
-        $Objects += $InputObj
+        $Objects.Add($InputObj)
     }
 
     end {

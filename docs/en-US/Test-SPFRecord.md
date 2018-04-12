@@ -12,19 +12,8 @@ Check the validity of an SPF record.
 
 ## SYNTAX
 
-### Name (Default)
 ```
-Test-SPFRecord [-Name] <String> [<CommonParameters>]
-```
-
-### Value
-```
-Test-SPFRecord -Value <String> [<CommonParameters>]
-```
-
-### Object
-```
-Test-SPFRecord -InputObj <SPFRecord> [<CommonParameters>]
+Test-SPFRecord [[-Name] <String>] [[-Value] <String>] [-FindIP <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -37,7 +26,6 @@ Basic: A basic check will ensure only a single SPF record is present, that it is
 ### Example 1
 ```
 PS C:\> Test-SPFRecord google.com
-```
 
    Name: google.com
 
@@ -45,11 +33,11 @@ Value         : v=spf1 include:_spf.google.com ~all
 RecordFound   : True
 FormatIsValid : True
 ValidLength   : True
+```
 
 ### Example 2
 ```
 PS C:\> Test-SPFRecord -Record 'v=spf1 include:_spf.google.com ~all'
-```
 
    Name: Unspecified
 
@@ -57,21 +45,28 @@ Value         : v=spf1 include:_spf.google.com ~all
 RecordFound   : True
 FormatIsValid : True
 ValidLength   : True
+```
+
+### Example 3
+```
+PS C:\> Test-SPFRecord google.com -FindIP 172.217.128.0
+True
+```
 
 ## PARAMETERS
 
-### -InputObj
-{{Fill InputObj Description}}
+### -FindIP
+Search for an IPv4 address recursively within a domain's SPF record.
 
 ```yaml
-Type: SPFRecord
-Parameter Sets: Object
-Aliases: 
+Type: String
+Parameter Sets: (All)
+Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByValue)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -80,13 +75,13 @@ A domain name to perform SPF validation on.
 
 ```yaml
 Type: String
-Parameter Sets: Name
+Parameter Sets: (All)
 Aliases: Domain
 
-Required: True
+Required: False
 Position: 0
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
@@ -95,13 +90,13 @@ A plain text record to validate.
 
 ```yaml
 Type: String
-Parameter Sets: Value
+Parameter Sets: (All)
 Aliases: Record
 
-Required: True
-Position: Named
+Required: False
+Position: 1
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
