@@ -2,6 +2,9 @@
 
 FEATURES:
 
+- Test-SpfRecord : Added a warning when Ptr records are found.
+- Test-SpfRecord : Add proper support for Ptr records when using -FindIp
+
 IMPROVEMENTS:
 
 - Resolve-SpfRecord : Reduced complexity of code logic.

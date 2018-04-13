@@ -51,6 +51,10 @@ function ValidateSPF {
             $PSCmdlet.ThrowTerminatingError($ErrRecord)
         }
 
+        if ($Record -match "\sptr.*\s") {
+            $PSCmdlet.WriteWarning("The SPF record for domain {0} contains a ptr mechanism. Ptr mechanisms should be avoided due to the number of dns lookups." -f $Name)
+        }
+
         $Output = New-Object -TypeName MailTools.Security.SPF.Validation
         $Output.Name = $Name
 
