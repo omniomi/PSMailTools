@@ -17,6 +17,9 @@ function PrintChild {
         } elseif ($Value -match '^(?:include:|redirect=).*$') {
             $SearchName   = $Value.Split(':=')[1]
             $SearchMethod = 'spf'
+        } elseif ($Value -match '^exists:.*$') {
+            $SearchName   = $Value.Split(':')[1]
+            $SearchMethod = 'exists'
         } else {
             continue
         }
@@ -26,6 +29,9 @@ function PrintChild {
             $NextLevel = $DnsResults -join ' '
         } elseif ($SearchMethod -eq 'spf') {
             $NextLevel = ReturnSpf $SearchName
+        } elseif ($SearchMethod -eq 'exists') {
+            $Value = $Value.Split(':')[0]
+            $NextLevel = $SearchName
         }
 
         if ($NextLevel) {
