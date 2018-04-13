@@ -32,6 +32,30 @@ function Test-SpfRecord {
                     $RecursiveSPF = Resolve-SPFRecord $Name -Verbose:$false
                     $IPAddresses = ($RecursiveSPF.Value -join ' ').Split(' ') | Where-Object { $_ -match [regex]"^(?:ip4:.*|(?:\d+\.){3}\d+)" }
 
+                    # Ptr Record
+                    $PtrRegex = [regex]::New("\s(ptr:[^\s]+|ptr)")
+                    if (($RecursiveSPF.Value -join ' ') -match $PtrRegex) {
+                        $PtrNameHost = ResolveDns $FindIP -Type ptr -ErrorAction SilentlyContinue
+                        if ($PtrNameHost) {
+                            $PtrRecords = $RecursiveSPF | Where-Object { $_.Value -match $PtrRegex }
+                            foreach ($PtrRecord in $PtrRecords) {
+                                $PtrMatches = [regex]::Match($PtrRecord.Value,$PtrRegex)
+                                foreach ($Ptr in $PtrMatches) {
+                                    if ($Ptr.Groups[1].Value -eq 'ptr') {
+                                        $PtrLookup = $PtrRecord.Name.Split(':')[1]
+                                    } else {
+                                        $PtrLookup = $Ptr.Groups[1].Value.Split(':')[1]
+                                    }
+
+                                    if ($PtrLookup -eq $PtrNameHost) {
+                                        Write-Verbose ("Found IP in the SPF record for {0}." -f $Name)
+                                        return $true
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     $Match = $false
 
                     foreach ($IP in $IPAddresses) {
@@ -56,7 +80,7 @@ function Test-SpfRecord {
                         Write-Verbose ("Found IP in the SPF record for {4}`n`n`t`tName: {0}`n`t`tValue: {1}`n`t`t{2} matches {3}`n`nUse 'Resolve-SPFRecord {4}' to view the location of this record." -f $CurrentRecord.Name,$CurrentRecord.Value,$IP,$FindIP,$Name)
                     }
 
-                    $Match
+                    return $Match
                 }
                 default {
                     if (-not($Name) -and -not($Value)) {
