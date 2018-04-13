@@ -67,10 +67,25 @@ function Test-SpfRecord {
                     }
 
                     $ValidationParams = @{}
-                    if ($Name) { $ValidationParams.Name = $Name }
-                    if ($Value) { $ValidationParams.SPFRecord = $Value }
+                    if ($Name) {
+                        # Dealing with pipeline from Resolve-SpfRecord
+                        if ($Name -match "^(?:Include|Redirect).*") {
+                            $ValidationParams.Name = $Name.Split(':=')[1]
+                        } else {
+                            $ValidationParams.Name = $Name
+                        }
+                    }
 
-                    ValidateSPF @ValidationParams
+                    if ($Value) {
+                        $ValidationParams.SPFRecord = $Value
+                    }
+
+                    # Dealing with pipeline from Resolve-SpfRecord
+                    if ($Value -match "v=spf1.*" -or -not($Value)) {
+                        ValidateSPF @ValidationParams
+                    } else {
+                        continue
+                    }
                 }
             }
         }
