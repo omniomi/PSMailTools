@@ -4,7 +4,7 @@ function ReturnSPF {
         # Domain name to retrieve SPF record for
         [Parameter(Mandatory,
                    ValueFromPipeline)]
-        [String]
+        [string]
         $Name
     )
 

@@ -8,7 +8,7 @@ function Resolve-SpfRecord {
                    Position=0,
                    ParameterSetName='Default')]
         [Alias('Domain')]
-        [String[]]
+        [String]
         $Name,
 
         [Parameter(Mandatory,
@@ -19,31 +19,20 @@ function Resolve-SpfRecord {
     )
 
     process {
-        if ($PSCmdlet.ParameterSetName -eq 'InputObj') {
-            foreach ($Obj in $InputObj) {
-                try {
-                    ReturnSPFRecursive -Name $Obj.Name -Record $Obj.Value
-                }
-                catch {
-                    $PSCmdlet.ThrowTerminatingError($PSItem)
-                }
+        try {
+            if ($InputObj) {
+                $IsName = $InputObj.name
+                $Record = $InputObj.Value
+            } else {
+                $IsName = $Name
+                $Record = ReturnSPF $Name
             }
-        } else {
-            foreach ($DomainName in $Name) {
-                try {
-                    $Record = ReturnSPF $DomainName
-                }
-                catch {
-                    $PSCmdlet.ThrowTerminatingError($PSItem)
-                }
 
-                try {
-                    ReturnSPFRecursive -Name $DomainName -Record $Record
-                }
-                catch {
-                    $PSCmdlet.ThrowTerminatingError($PSItem)
-                }
-            }
+            PrintItem $IsName $Record
+
+        }
+        catch {
+            $PSCmdlet.ThrowTerminatingError($PSItem)
         }
     }
 }
