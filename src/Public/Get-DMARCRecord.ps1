@@ -1,5 +1,5 @@
-# src\Public\Get-DMARCRecord.ps1
-function Get-DMARCRecord {
+# src\Public\Get-DmarcRecord.ps1
+function Get-DmarcRecord {
     [CmdletBinding()]
     [OutputType('MailTools.Security.DMARC.DMARCRecord')]
     param (

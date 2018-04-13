@@ -1,5 +1,5 @@
-# src\Public\Test-SPFRecord.ps1
-function Test-SPFRecord {
+# src\Public\Test-SpfRecord.ps1
+function Test-SpfRecord {
     [CmdletBinding()]
     [OutputType('MailTools.Security.SPF.Validation')]
     param (

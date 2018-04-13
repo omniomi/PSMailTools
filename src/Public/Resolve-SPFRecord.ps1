@@ -1,5 +1,5 @@
-# src\Public\Resolve-SPFRecord.ps1
-function Resolve-SPFRecord {
+# src\Public\Resolve-SpfRecord.ps1
+function Resolve-SpfRecord {
     [CmdletBinding(DefaultParameterSetName='Default')]
     [OutputType('MailTools.Security.SPF.Recursive')]
     param (

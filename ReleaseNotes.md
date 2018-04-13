@@ -1,3 +1,20 @@
+# 0.2.0 ( )
+
+FEATURES:
+
+IMPROVEMENTS:
+
+- Resolve-SpfRecord : Reduced complexity of code logic.
+- Resolve-SpfRecord : Now outputs records with their relative level to the first row instead of tracking parent/child relationships directly.
+- ConvertTo-SpfTree : Refactored to work with the new output of Resolve-SpfRecord. Logic complexity greatly reduced.
+
+BUG FIXES:
+
+OTHER:
+
+- All cmdlets renamed to change case to "\*Spf\*" from "\*SPF\*" to follow convention.
+
+
 # 0.1.2 ( April 11, 2018 )
 
 FEATURES:

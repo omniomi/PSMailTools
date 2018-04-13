@@ -1,6 +1,6 @@
 
-# src\Public\ConvertTo-SPFTree.ps1
-function ConvertTo-SPFTree {
+# src\Public\ConvertTo-SpfTree.ps1
+function ConvertTo-SpfTree {
     [CmdletBinding()]
     [OutputType([System.String])]
     param (
