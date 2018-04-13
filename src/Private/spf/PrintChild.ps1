@@ -17,9 +17,9 @@ function PrintChild {
         } elseif ($Value -match '^(?:include:|redirect=).*$') {
             $SearchName   = $Value.Split(':=')[1]
             $SearchMethod = 'spf'
-        } elseif ($Value -match '^exists:.*$') {
+        } elseif ($Value -match '^(?:ptr|ptr:|exists:).*$') {
             $SearchName   = $Value.Split(':')[1]
-            $SearchMethod = 'exists'
+            $SearchMethod = 'none'
         } else {
             continue
         }
@@ -29,7 +29,7 @@ function PrintChild {
             $NextLevel = $DnsResults -join ' '
         } elseif ($SearchMethod -eq 'spf') {
             $NextLevel = ReturnSpf $SearchName
-        } elseif ($SearchMethod -eq 'exists') {
+        } elseif ($SearchMethod -eq 'none') {
             $Value = $Value.Split(':')[0]
             $NextLevel = $SearchName
         }
