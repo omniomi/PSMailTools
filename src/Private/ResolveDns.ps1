@@ -10,6 +10,10 @@ function ResolveDns {
     )
 
     try {
+        if ($Name -match "[^=:]+(?:=|:).*") {
+            $Name = $Name.Split(':=')[1]
+        }
+
         $DnsRecords = Resolve-DnsName $Name -Type $Type
 
         foreach ($DnsRecord in $DnsRecords) {
