@@ -5,12 +5,12 @@ function ResolveDns {
         [string]$Name,
 
         [parameter(Mandatory)]
-        [ValidateSet('txt','mx','a')]
+        [ValidateSet('txt','mx','a','ptr')]
         [string]$Type
     )
 
     try {
-        $DnsRecords = Resolve-DnsName $Name -Type $Type
+        $DnsRecords = Resolve-DnsName $Name -Type $Type -Verbose:$false
 
         foreach ($DnsRecord in $DnsRecords) {
             switch ($Type) {
@@ -24,6 +24,11 @@ function ResolveDns {
                 }
                 'txt' {
                     -join $DnsRecord.Strings
+                }
+                'ptr' {
+                    if ($DnsRecord.NameHost) {
+                        $DnsRecord.NameHost
+                    }
                 }
             }
         }
