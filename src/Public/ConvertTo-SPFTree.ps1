@@ -5,6 +5,16 @@ function ConvertTo-SpfTree {
     [OutputType([System.String])]
     param (
         [Parameter(ValueFromPipeline)]
+        [ValidateScript({
+            if ($_ -is [MailTools.Security.SPF.Recursive]) {
+                $true
+            } else {
+                $Exception = New-Object System.ArgumentException ('This command only accepts output from Resolve-SpfRecord.')
+                $ErrCategory = [System.Management.Automation.ErrorCategory]::InvalidArgument
+                $ErrRecord = New-Object System.Management.Automation.ErrorRecord $Exception,'WrongSpfObject',$ErrCategory,$null
+                throw $ErrRecord
+            }
+        })]
         [MailTools.Security.SPF.SPFRecord[]]
         $InputObj
     )
@@ -62,15 +72,17 @@ function ConvertTo-SpfTree {
 
     end {
         try {
-            '----------------------------------------'
-            'Domain:     ' + $Objects[0].Name
-            'SPF Record: ' + $Objects[0].Value
-            '----------------------------------------'
-            PrintRow $Objects[0]
-            '----------------------------------------'
-            $Lookups = @('include','a','mx','ptr','exists')
-            'DNS Lookup Count: ' + (((-join $Objects.Value).Split(' ').Split(':') | Where { $_ -in $Lookups }).count) + ' out of 10'
-            '----------------------------------------'
+            if ($Objects.count -ge 1) {
+                '----------------------------------------'
+                'Domain:     ' + $Objects[0].Name
+                'SPF Record: ' + $Objects[0].Value
+                '----------------------------------------'
+                PrintRow $Objects[0]
+                '----------------------------------------'
+                $Lookups = @('include','a','mx','ptr','exists')
+                'DNS Lookup Count: ' + (((-join $Objects.Value).Split(' ').Split(':') | Where { $_ -in $Lookups }).count) + ' out of 10'
+                '----------------------------------------'
+            }
         }
         catch {
             $PSCmdlet.WriteError($PSItem)
