@@ -89,6 +89,8 @@ Describe "Resolve-SpfRecord" {
     }
 
     Context "Invalid records" {
-
+        it "Throws an error for incorrectly formatted records" {
+            { Resolve-SpfRecord -Name invfmt.example.com } | Should Throw
+        }
     }
 }
