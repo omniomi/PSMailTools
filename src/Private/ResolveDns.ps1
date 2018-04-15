@@ -14,6 +14,10 @@ function ResolveDns {
             $Name = $Name.Split(':=')[1]
         }
 
+        $Exception = New-Object System.ComponentModel.Win32Exception ("{0} : DNS name does not exist" -f $Name)
+        $ErrCategory = [System.Management.Automation.ErrorCategory]::ResourceUnavailable
+        $ErrRecord = New-Object System.Management.Automation.ErrorRecord $Exception,'ResolveDnsName',$ErrCategory,($Name + ':' + $Type )
+
         $DnsRecords = Resolve-DnsName $Name -Type $Type -Verbose:$false
 
         foreach ($DnsRecord in $DnsRecords) {
@@ -21,17 +25,29 @@ function ResolveDns {
                 'mx'  {
                     if ($DnsRecord.NameExchange) {
                         $DnsRecord.NameExchange
+                    } else {
+                        $PSCmdlet.ThrowTerminatingError($ErrRecord)
                     }
                 }
                 'a'   {
-                    $DnsRecord.IPAddress
+                    if($DnsRecord.IPAddress) {
+                        $DnsRecord.IPAddress
+                    } else {
+                        $PSCmdlet.ThrowTerminatingError($ErrRecord)
+                    }
                 }
                 'txt' {
-                    -join $DnsRecord.Strings
+                    if ($DnsRecord.Strings) {
+                        -join $DnsRecord.Strings
+                    } else {
+                        $PSCmdlet.ThrowTerminatingError($ErrRecord)
+                    }
                 }
                 'ptr' {
                     if ($DnsRecord.NameHost) {
                         $DnsRecord.NameHost
+                    } else {
+                        $PSCmdlet.ThrowTerminatingError($ErrRecord)
                     }
                 }
             }
