@@ -86,7 +86,7 @@ function Test-SpfRecord {
                     if (-not($Name) -and -not($Value)) {
                         $Exception = New-Object System.ArgumentException ('You must specify a domain name or plain-text SPF record to validate.')
                         $ErrCategory = [System.Management.Automation.ErrorCategory]::InvalidArgument
-                        $ErrRecord = New-Object System.Management.Automation.ErrorRecord $Exception,'NoDmarcRecord',$ErrCategory,$null
+                        $ErrRecord = New-Object System.Management.Automation.ErrorRecord $Exception,'TestSpfInvalidArgument',$ErrCategory,$null
                         $PSCmdlet.ThrowTerminatingError($ErrRecord)
                     }
 
