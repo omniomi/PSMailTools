@@ -78,7 +78,7 @@ namespace MailTools
                         }
 
                         // aspf
-                        Regex aspfExp = new Regex(@"aspf=(?<spValue>[A-Za-z]+)");
+                        Regex aspfExp = new Regex(@"aspf=(?<aspfValue>[A-Za-z]+)");
                         var aspfResults = aspfExp.Match(value.ToLower());
                         if (!String.IsNullOrEmpty(aspfResults.Groups["aspfValue"].Value))
                         {

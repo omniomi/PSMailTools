@@ -3,19 +3,23 @@
 FEATURES:
 
 - Test-SpfRecord : Added a warning when Ptr records are found.
-- Test-SpfRecord : Add proper support for Ptr records when using -FindIp
+- Test-SpfRecord : Added proper support for Ptr records when using -FindIp.
+- Resolve-SpfRecord : Added support for Ptr records.
 
 IMPROVEMENTS:
 
 - Resolve-SpfRecord : Reduced complexity of code logic.
 - Resolve-SpfRecord : Now outputs records with their relative level to the first row instead of tracking parent/child relationships directly.
 - ConvertTo-SpfTree : Refactored to work with the new output of Resolve-SpfRecord. Logic complexity greatly reduced.
+- Various error handling improvements.
 
 BUG FIXES:
 
+- Fixed a bug parsing the aspf value in DmarcRecord objects.
+
 OTHER:
 
-- All cmdlets renamed to change case to "\*Spf\*" from "\*SPF\*" to follow convention.
+- All cmdlets renamed to change case to "\*Spf\*" from "\*SPF\*" following convention from the DnsClient module.
 
 
 # 0.1.2 ( April 11, 2018 )
