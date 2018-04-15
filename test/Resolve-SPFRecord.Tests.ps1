@@ -92,5 +92,17 @@ Describe "Resolve-SpfRecord" {
         it "Throws an error for incorrectly formatted records" {
             { Resolve-SpfRecord -Name invfmt.example.com } | Should Throw
         }
+
+        it "Throws an error when a record contains a bad include" {
+            { Resolve-SpfRecord -Name invinc.example.com } | Should Throw
+        }
+
+        it "Throws an error for a bad mx: lookup" {
+            { Resolve-SpfRecord -Name invmx.example.com } | Should Throw
+        }
+
+        it "Throws an error for a bad a: lookup" {
+            { Resolve-SpfRecord -Name inva.example.com } | Should Throw
+        }
     }
 }
