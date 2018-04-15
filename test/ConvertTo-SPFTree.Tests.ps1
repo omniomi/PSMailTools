@@ -90,5 +90,9 @@ InModuleScope -ModuleName PSMailTools {
             (-join $x) | Should Be (-join $ExpectedOutput)
         }
 
+        it "Throws an error if piped the wrong object type" {
+            $x = [MailTools.Security.SPF.SpfRecord]@{ Name = 'Example.com' ; Value = 'v=spf1 a mx ip4:10.10.88.81 ip4:10.11.99.91 include:_spf.google.com ~all'} | ConvertTo-SpfTree 2>&1
+            $x.exception -like "*This command only accepts output from Resolve-SpfRecord*" | Should Be $true
+        }
     }
 }
