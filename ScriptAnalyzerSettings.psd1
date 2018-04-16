@@ -25,7 +25,7 @@
     # want to allow.
     Rules = @{
         # Do not flag 'Select' or 'Where' aliases.
-        PSAvoidUsingCmdletAliases = @{Whitelist = @('Select','Where')}
+        PSAvoidUsingCmdletAliases = @{Whitelist = @('Select','Where','Sort')}
 
         # Brace position
         # PSPlaceOpenBrace = @{
