@@ -2,6 +2,7 @@
 
 FEATURES:
 
+- Get-SpamBlacklist : New cmdlet for checking ips and hosts against popular spam blacklists.
 - Test-SpfRecord : Added a warning when Ptr records are found.
 - Test-SpfRecord : Added proper support for Ptr records when using -FindIp.
 - Resolve-SpfRecord : Added support for Ptr records.
