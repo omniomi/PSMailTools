@@ -5,7 +5,7 @@ online version: https://github.com/omniomi/PSMailTools/blob/master/docs/en-US/Re
 schema: 2.0.0
 ---
 
-# Resolve-SPFRecord
+# Resolve-SpfRecord
 
 ## SYNOPSIS
 Return an SPF record recursively.
@@ -14,12 +14,12 @@ Return an SPF record recursively.
 
 ### Default (Default)
 ```
-Resolve-SPFRecord [-Name] <String[]> [<CommonParameters>]
+Resolve-SpfRecord [-Name] <String> [<CommonParameters>]
 ```
 
 ### InputObj
 ```
-Resolve-SPFRecord -InputObj <SPFRecord[]> [<CommonParameters>]
+Resolve-SpfRecord -InputObj <SPFRecord[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -60,12 +60,12 @@ Pipe the results of Get-SPFRecord to follow lookups.
 ## PARAMETERS
 
 ### -InputObj
-{{Fill InputObj Description}}
+Pipe the output from Get-SpfRecord to Resolve-SpfRecord.
 
 ```yaml
 Type: SPFRecord[]
 Parameter Sets: InputObj
-Aliases: 
+Aliases:
 
 Required: True
 Position: Named
@@ -78,7 +78,7 @@ Accept wildcard characters: False
 Root domain name from which to start the recursive lookup.
 
 ```yaml
-Type: String[]
+Type: String
 Parameter Sets: Default
 Aliases: Domain
 
@@ -103,4 +103,3 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
-

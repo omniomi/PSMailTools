@@ -5,7 +5,7 @@ online version: https://github.com/omniomi/PSMailTools/blob/master/docs/en-US/Ge
 schema: 2.0.0
 ---
 
-# Get-DMARCRecord
+# Get-DmarcRecord
 
 ## SYNOPSIS
 Return the DMARC record associated with the specified domain.
@@ -13,7 +13,7 @@ Return the DMARC record associated with the specified domain.
 ## SYNTAX
 
 ```
-Get-DMARCRecord [-Name] <String[]> [<CommonParameters>]
+Get-DmarcRecord [-Name] <String[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -75,4 +75,3 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
-

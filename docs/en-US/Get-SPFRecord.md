@@ -5,7 +5,7 @@ online version: https://github.com/omniomi/PSMailTools/blob/master/docs/en-US/Ge
 schema: 2.0.0
 ---
 
-# Get-SPFRecord
+# Get-SpfRecord
 
 ## SYNOPSIS
 Get the SPF record defined on the specified domain name.
@@ -13,7 +13,7 @@ Get the SPF record defined on the specified domain name.
 ## SYNTAX
 
 ```
-Get-SPFRecord [-Name] <String[]> [<CommonParameters>]
+Get-SpfRecord [-Name] <String[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -63,4 +63,3 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
-

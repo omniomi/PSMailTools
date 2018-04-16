@@ -5,7 +5,7 @@ online version: https://github.com/omniomi/PSMailTools/blob/master/docs/en-US/Te
 schema: 2.0.0
 ---
 
-# Test-SPFRecord
+# Test-SpfRecord
 
 ## SYNOPSIS
 Check the validity of an SPF record.
@@ -13,7 +13,7 @@ Check the validity of an SPF record.
 ## SYNTAX
 
 ```
-Test-SPFRecord [[-Name] <String>] [[-Value] <String>] [-FindIP <String>] [<CommonParameters>]
+Test-SpfRecord [[-Name] <String>] [[-Value] <String>] [-FindIP <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -114,4 +114,3 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
-

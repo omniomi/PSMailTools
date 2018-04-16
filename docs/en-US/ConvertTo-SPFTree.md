@@ -5,7 +5,7 @@ online version: https://github.com/omniomi/PSMailTools/blob/master/docs/en-US/Co
 schema: 2.0.0
 ---
 
-# ConvertTo-SPFTree
+# ConvertTo-SpfTree
 
 ## SYNOPSIS
 Converts an SPFRecord object to a hierarchy tree for easy visualization.
@@ -13,7 +13,7 @@ Converts an SPFRecord object to a hierarchy tree for easy visualization.
 ## SYNTAX
 
 ```
-ConvertTo-SPFTree [[-InputObj] <SPFRecord[]>] [<CommonParameters>]
+ConvertTo-SpfTree [[-InputObj] <SPFRecord[]>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -74,7 +74,7 @@ Output from Resolve-SPFRecord
 ```yaml
 Type: SPFRecord[]
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: False
 Position: 0
@@ -97,4 +97,3 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
-
