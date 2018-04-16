@@ -3,20 +3,21 @@
 FEATURES:
 
 - Get-SpamBlacklist : New cmdlet for checking ips and hosts against popular spam blacklists.
-- Test-SpfRecord : Added a warning when Ptr records are found.
-- Test-SpfRecord : Added proper support for Ptr records when using -FindIp.
 - Resolve-SpfRecord : Added support for Ptr records.
+- Test-SpfRecord : Added support for Ptr records when using -FindIp.
 
 IMPROVEMENTS:
 
+- ConvertTo-SpfTree : Refactored to work with the new output of Resolve-SpfRecord. Logic complexity greatly reduced.
 - Resolve-SpfRecord : Reduced complexity of code logic.
 - Resolve-SpfRecord : Now outputs records with their relative level to the first row instead of tracking parent/child relationships directly.
-- ConvertTo-SpfTree : Refactored to work with the new output of Resolve-SpfRecord. Logic complexity greatly reduced.
+- Test-SpfRecord : Added a warning when Ptr records are found.
 - Various error handling improvements.
 
 BUG FIXES:
 
 - Fixed a bug parsing the aspf value in DmarcRecord objects.
+- Fixed a bug allowing non-recusive data to be piped to ConvertTo-SpfTree which caused an error as it tried to process it.
 
 OTHER:
 
