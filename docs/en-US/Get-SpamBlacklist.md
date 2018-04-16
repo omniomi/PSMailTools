@@ -23,7 +23,7 @@ Checks a list of common spam blacklists for a specified IP or hostname.
 
 ### Example 1
 ```powershell
-PS C:\> Get-SpamBlacklist -CheckIp 10.25.110.1
+PS C:\> Get-SpamBlacklist 10.25.110.1
 
 Blacklist              OnList Message
 ---------              ------ -------
@@ -37,15 +37,31 @@ psbl.surriel.com         True Listed in PSBL, see http://psbl.org/listing?ip=10.
 
 Checks the blacklists for the ip 10.25.110.1. Use `-ShowAll` to show all blacklists including those that do not include the IP.
 
+### Example 2
+```powershell
+PS C:\> Get-SpamBlacklist spammer.mm33ss3.su
+
+Blacklist              OnList Message
+---------              ------ -------
+b.barracudacentral.org   True Client host blocked using Barracuda Reputation, see http://www.barracudanetworks.com/reputation/?r=1&ip=10.25.110.1
+dnsbl.sorbs.net          True Currently Sending Spam See: http://www.sorbs.net/lookup.shtml?10.25.110.1
+spam.dnsbl.sorbs.net     True Spam Received See: http://www.sorbs.net/lookup.shtml?10.25.110.1
+bl.spamcop.net           True Blocked - see http://www.spamcop.net/bl.shtml?10.25.110.1
+dyna.spamrats.com        True SPAMRATS IP Addresses See: http://www.spamrats.com/bl?10.25.110.1
+psbl.surriel.com         True Listed in PSBL, see http://psbl.org/listing?ip=10.25.110.1
+```
+
+Checks the blacklists for the ip associated with spammer.mm33ss3.su. Use `-ShowAll` to show all blacklists including those that do not include the IP.
+
 ## PARAMETERS
 
-### -CheckIp
-IP Address to search for in blacklists.
+### -Name
+IP address or hostname to search for in blacklists.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: IpAddr
 
 Required: True
 Position: 0

@@ -3,11 +3,8 @@ function Get-SpamBlacklist {
     [cmdletbinding()]
     param (
         [parameter(Mandatory)]
-        [ValidateScript({
-            if ($_ -match "(?:\d{1,3}\.){3}\d{1,3}") {$true}
-            else {throw "Invalid IP."}
-        })]
-        [string]$CheckIp,
+        [alias('IpAddr')]
+        [string]$Name,
 
         [parameter()]
         [switch]$ShowAll
@@ -58,6 +55,25 @@ function Get-SpamBlacklist {
         'spam.spamrats.com',
         'psbl.surriel.com'
     )
+
+    if ($Name -match "(?:\d{1,3}\.){3}\d{1,3}") {
+        $CheckIp = $Name
+    } else {
+        try {
+            $Lookup = ResolveDns $Name A -ErrorAction Stop
+        }
+        catch {
+            $PSCmdlet.ThrowTerminatingError($PSItem)
+        }
+        if ($Lookup -match "(?:\d{1,3}\.){3}\d{1,3}") {
+            $CheckIp = $Lookup
+        } else {
+            $Exception = New-Object System.ArgumentException ('Cannot determine a valid IP from input {0}' -f $Name)
+            $ErrCategory = [System.Management.Automation.ErrorCategory]::InvalidArgument
+            $ErrRecord = New-Object System.Management.Automation.ErrorRecord $Exception,'CannotDetermineIP',$ErrCategory,$Name
+            $PSCmdlet.ThrowTerminatingError($ErrRecord)
+        }
+    }
 
     $IpR = $CheckIp -replace '^(\d+)\.(\d+)\.(\d+)\.(\d+)$','$4.$3.$2.$1'
 
