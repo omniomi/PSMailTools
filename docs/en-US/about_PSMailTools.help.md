@@ -11,12 +11,12 @@ PSMailTools provides the ability to
 
 * Retrieve and validate SPF records.
 * Recursively follow and display lookups in an SPF record.
+* Find IPs in SPF records.
 * Retrieve and display DMARC records.
+* Search blacklists.
 
 Planned abilities (not limited to)
 
-* Advanced SPF validation.
-* Determine whether an IP is included in an SPF record.
 * Validate DMARC records.
 * Retrieve and validate DKIM records.
 * Test SMTP.
