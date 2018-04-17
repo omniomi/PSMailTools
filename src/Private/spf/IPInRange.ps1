@@ -1,5 +1,6 @@
 ﻿function IPInRange {
     [cmdletbinding()]
+    [outputtype([System.Boolean])]
     param(
         # IP Address to find.
         [parameter(Mandatory,
