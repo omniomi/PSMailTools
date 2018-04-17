@@ -18,7 +18,7 @@ function ResolveDns {
         $ErrCategory = [System.Management.Automation.ErrorCategory]::ResourceUnavailable
         $ErrRecord = New-Object System.Management.Automation.ErrorRecord $Exception,'ResolveDnsName',$ErrCategory,($Name + ':' + $Type )
 
-        $DnsRecords = Resolve-DnsName $Name -Type $Type -Verbose:$false
+        $DnsRecords = Resolve-DnsName $Name -Type $Type -Verbose:$false | Where-Object { $_.Section -ne 'Additional' }
 
         foreach ($DnsRecord in $DnsRecords) {
             switch ($Type) {
