@@ -1,5 +1,6 @@
 function ValidateSPF {
     [cmdletbinding()]
+    [outputtype([MailTools.Security.SPF.Validation])]
     param(
         [String]
         $Name = 'Unspecified',
