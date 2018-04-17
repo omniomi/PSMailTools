@@ -29,7 +29,6 @@ function Get-DmarcRecord {
                 $PSCmdlet.ThrowTerminatingError($ErrRecord)
             }
 
-            # Handle multiple records. (Not valid as per RFC 7208 s3.2)
             foreach ($Record in $DMARCRecord.String) {
                 [MailTools.Security.DMARC.DMARCRecord]@{
                     Name  = $DomainName
