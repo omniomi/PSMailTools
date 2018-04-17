@@ -1,4 +1,6 @@
 function PrintChild {
+    [cmdletbinding()]
+    [outputtype([System.String[]])]
     param(
         [String]$Name,
         [String]$Value,

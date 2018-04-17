@@ -20,7 +20,8 @@ function Get-DmarcRecord {
             } else {
                 $DMARCDomain = '_dmarc.' + $DomainName
             }
-            $DMARCRecord = Resolve-DnsName -Name $DMARCDomain -Type TXT -ErrorAction SilentlyContinue | Where-Object { $_.Strings -like "v=DMARC1*" } | Select @{n='String';e={-join $_.Strings}}
+
+            $DMARCRecord = ResolveDns -Name $DMARCDomain -Type TXT -ErrorAction SilentlyContinue | Where-Object { $_ -like "v=DMARC1*" }
 
             if ($DMARCRecord.Count -eq 0) {
                 $Exception = New-Object System.Management.Automation.ItemNotFoundException ("The domain {0} has no DMARC records." -f $DMARCDomain)
@@ -29,8 +30,7 @@ function Get-DmarcRecord {
                 $PSCmdlet.ThrowTerminatingError($ErrRecord)
             }
 
-            # Handle multiple records. (Not valid as per RFC 7208 s3.2)
-            foreach ($Record in $DMARCRecord.String) {
+            foreach ($Record in $DMARCRecord) {
                 [MailTools.Security.DMARC.DMARCRecord]@{
                     Name  = $DomainName
                     Path  = $DMARCDomain
@@ -42,7 +42,7 @@ function Get-DmarcRecord {
                 }
                 if ($null -ne $RUADomain -and $RUADomain -ne $DomainName) {
                     $AllowDomainPath = $DomainName + '._report._dmarc.' + $RUADomain
-                    $AllowRecord = Resolve-DnsName -Name $AllowDomainPath -Type TXT -ErrorAction SilentlyContinue | Where-Object { $_.Strings -like "v=DMARC1*" } | Select @{n='String';e={-join $_.Strings}}
+                    $AllowRecord = ResolveDns -Name $AllowDomainPath -Type TXT -ErrorAction SilentlyContinue | Where-Object { $_ -like "v=DMARC1*" }
 
                     if (-not($AllowRecord)) {
                         $Exception = New-Object System.Management.Automation.ItemNotFoundException ("The domain {0} is sending reports to the domain {1} which does not have a valid record to allow this at {2}." -f $DMARCDomain,$RUADomain,$AllowDomainPath)
@@ -54,7 +54,7 @@ function Get-DmarcRecord {
                     [MailTools.Security.DMARC.DMARCRecord]@{
                         Name  = $RUADomain
                         Path  = $AllowDomainPath
-                        Value = $AllowRecord.String
+                        Value = $AllowRecord
                     }
 
                 }

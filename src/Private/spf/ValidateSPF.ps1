@@ -1,5 +1,6 @@
 function ValidateSPF {
     [cmdletbinding()]
+    [outputtype([MailTools.Security.SPF.Validation])]
     param(
         [String]
         $Name = 'Unspecified',
@@ -55,16 +56,16 @@ function ValidateSPF {
             $PSCmdlet.WriteWarning("The SPF record for domain {0} contains a ptr mechanism. Ptr mechanisms should be avoided due to the number of dns lookups." -f $Name)
         }
 
-        $Output = New-Object -TypeName MailTools.Security.SPF.Validation
-        $Output.Name = $Name
-
-        $Output.RecordFound = $true
-        $Output.Value = $Record
+        $Output = [MailTools.Security.SPF.Validation]@{
+            Name          = $Name
+            Value         = $Record
+            RecordFound   = $true
+            FormatIsValid = $false
+            LookupCount   = $null
+        }
 
         if ($Record -match $SPFRegex) {
             $Output.FormatIsValid = $true
-        } else {
-            $Output.FormatIsValid = $false
         }
 
         $Lookups = @('include','a','mx','ptr','exists')

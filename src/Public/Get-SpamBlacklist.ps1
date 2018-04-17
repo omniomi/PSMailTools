@@ -16,13 +16,13 @@ function Get-SpamBlacklist {
         'in.dnsbl.org',
         'ips.backscatterer.org',
         'b.barracudacentral.org',
-        'rbl.interserver.net',
+        'ReverseDns.interserver.net',
         'bl.mailspike.net',
-        'images.rbl.msrbl.net',
-        'phishing.rbl.msrbl.net',
-        'combined.rbl.msrbl.net',
-        'virus.rbl.msrbl.net',
-        'spam.rbl.msrbl.net',
+        'images.ReverseDns.msReverseDns.net',
+        'phishing.ReverseDns.msReverseDns.net',
+        'combined.ReverseDns.msReverseDns.net',
+        'virus.ReverseDns.msReverseDns.net',
+        'spam.ReverseDns.msReverseDns.net',
         'abuse.rfc-clueless.org',
         'bogusmx.rfc-clueless.org',
         'dsn.rfc-clueless.org',
@@ -75,17 +75,17 @@ function Get-SpamBlacklist {
         }
     }
 
-    $IpR = $CheckIp -replace '^(\d+)\.(\d+)\.(\d+)\.(\d+)$','$4.$3.$2.$1'
+    $IpReversed = $CheckIp -replace '^(\d+)\.(\d+)\.(\d+)\.(\d+)$','$4.$3.$2.$1'
 
     foreach  ($Blacklist in $Blacklists) {
-        $Rbl = Resolve-DnsName ($IpR + '.' + $Blacklist) -DnsOnly -ErrorAction SilentlyContinue
-        if ($RBl) {
+        $ReverseDns = Resolve-DnsName ($IpReversed + '.' + $Blacklist) -DnsOnly -ErrorAction SilentlyContinue
+        if ($ReverseDns) {
             [pscustomobject]@{
                 Blacklist = $Blacklist
                 OnList    = $true
-                Message   = (-join (Resolve-DnsName ($IpR + '.' + $Blacklist) -Type txt -ErrorAction SilentlyContinue).Strings)
+                Message   = (-join (Resolve-DnsName ($IpReversed + '.' + $Blacklist) -Type txt -ErrorAction SilentlyContinue).Strings)
             }
-        } elseif (-Not($Rbl) -and $ShowAll) {
+        } elseif (-Not($ReverseDns) -and $ShowAll) {
             [pscustomobject]@{
                 Blacklist = $Blacklist
                 OnList    = $false

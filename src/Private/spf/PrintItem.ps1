@@ -1,4 +1,6 @@
 function PrintItem {
+    [cmdletbinding()]
+    [outputtype([System.String[]])]
     param(
         [String]$Name,
         [String]$Value,
