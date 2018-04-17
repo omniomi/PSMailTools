@@ -1,4 +1,6 @@
 function OutRecord {
+    [cmdletbinding()]
+    [outputtype([MailTools.Security.SPF.Recursive])]
     param(
         [String]$Name,
         [String]$Value,
