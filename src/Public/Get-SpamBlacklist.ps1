@@ -85,6 +85,7 @@ function Get-SpamBlacklist {
                 OnList    = $true
                 Message   = (-join (Resolve-DnsName ($IpReversed + '.' + $Blacklist) -Type txt -ErrorAction SilentlyContinue).Strings)
             }
+            $OnAList = $True
         } elseif (-Not($ReverseDns) -and $ShowAll) {
             [pscustomobject]@{
                 Blacklist = $Blacklist
@@ -92,5 +93,9 @@ function Get-SpamBlacklist {
                 Message   = $null
             }
         }
+    }
+
+    if (-not($OnAList) -and -not($ShowAll)) {
+        return $false
     }
 }
