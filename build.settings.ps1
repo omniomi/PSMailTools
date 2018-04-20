@@ -275,6 +275,13 @@ Task ZipRelease -depends Build, BuildHelp, GenerateFileCatalog -requiredVariable
 }
 
 ###############################################################################
+# FullBuild for Appveyor
+###############################################################################
+
+Task FullBuild -depends Build, BuildHelp, GenerateFileCatalog {
+}
+
+###############################################################################
 # Version number tasks.
 ###############################################################################
 

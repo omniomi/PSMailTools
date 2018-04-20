@@ -43,7 +43,7 @@ test_script:
 build_script:
   - ps: |
       $Profile = Import-CliXml $env:temp\PSProfile.xml
-      .\build.ps1 -Task Build
+      .\build.ps1 -Task FullBuild
 
 on_finish:
   - ps: .\build.ps1 -Task osFinish

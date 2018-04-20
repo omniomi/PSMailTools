@@ -1,7 +1,7 @@
 #Requires -Modules psake
 [cmdletbinding()]
 param(
-    [ValidateSet('Build','Test','BuildHelp','Install','Clean','Analyze','Publish','ExportPublicFunctions','VersionIncMajor','VersionIncMinor','VersionIncBuild','VersionIncRevision','osFinish')]
+    [ValidateSet('Build','FullBuild','Test','BuildHelp','Install','Clean','Analyze','Publish','ExportPublicFunctions','VersionIncMajor','VersionIncMinor','VersionIncBuild','VersionIncRevision','osFinish')]
     [string[]]$Task = 'Build'
 )
 
