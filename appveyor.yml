@@ -1,0 +1,49 @@
+version: 1.0.0.{build}
+skip_tags: true
+os: WMF 5
+build: off
+
+branches:
+  only:
+    - master
+    - development
+    - v0.2.0
+
+skip_commits:
+    message: /skip\-tests/
+    files:
+        - .github/
+        - .vscode/
+        - README.md
+        - .gitattributes
+        - .gitignore
+        - .env*
+
+pull_requests:
+  do_not_increment_build_number: true
+
+install:
+  - ps: |
+      Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force | Out-Null
+      Install-Module Pester -MinimumVersion 4.3.1 -Scope CurrentUser -Force | Out-Null
+      Install-Module psake -Scope CurrentUser -Force | Out-Null
+      Install-Module PSScriptAnalyzer -Scope CurrentUser -Force | Out-Null
+      Install-Module platyPS -Scope CurrentUser -Force | Out-Null
+      PowerShell.exe -Command { Export-Clixml -InputObject $Profile -Path  $env:temp\PSProfile.xml }
+
+test_script:
+  - ps: |
+      $TestResultsFile = ".\TestResults.xml"
+      $Result = Invoke-Pester .\test\ -OutputFormat NUnitXml -OutputFile $TestResultsFile -PassThru
+      (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $TestResultsFile))
+      if ($Result.FailedCount -gt 0) {
+          throw "$($res.FailedCount) tests failed."
+      }
+
+build_script:
+  - ps: |
+      $Profile = Import-CliXml $env:temp\PSProfile.xml
+      .\build.ps1 -Task Build
+
+on_finish:
+  - ps: .\build.ps1 -Task osFinish
