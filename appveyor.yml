@@ -36,26 +36,26 @@ init:
 
 test_script:
   - ps: |
-        $TestResultsFile = ".\TestResults.xml"
-        $Result = Invoke-Pester .\test\ -OutputFormat NUnitXml -OutputFile $TestResultsFile -PassThru
-        (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $TestResultsFile))
-        if ($Result.FailedCount -gt 0) {
-            throw "$($res.FailedCount) tests failed."
-        }
+      $TestResultsFile = ".\TestResults.xml"
+      $Result = Invoke-Pester .\test\ -OutputFormat NUnitXml -OutputFile $TestResultsFile -PassThru
+      (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $TestResultsFile))
+      if ($Result.FailedCount -gt 0) {
+          throw "$($res.FailedCount) tests failed."
+      }
 
 build_script:
   - ps: |
-        $Profile = Import-CliXml $env:temp\PSProfile.xml
-        .\build.ps1 -Task Build
+      $Profile = Import-CliXml $env:temp\PSProfile.xml
+      .\build.ps1 -Task Build
 
 on_finish:
   - ps: |
-        try {
-          $stagingDirectory = (Resolve-Path ..).Path
-          $zipFile = Join-Path $stagingDirectory "PSMailTools-$($env:APPVEYOR_REPO_BRANCH).zip"
-          Add-Type -assemblyname System.IO.Compression.FileSystem
-          [System.IO.Compression.ZipFile]::CreateFromDirectory("$pwd\Release\PSMailTools", $zipFile)
-          Push-AppveyorArtifact $zipFile
-        } catch {
-          Write-Host -Foreground Red $_
-        }
+      try {
+        $stagingDirectory = (Resolve-Path ..).Path
+        $zipFile = Join-Path $stagingDirectory "PSMailTools-$($env:APPVEYOR_REPO_BRANCH).zip"
+        Add-Type -assemblyname System.IO.Compression.FileSystem
+        [System.IO.Compression.ZipFile]::CreateFromDirectory("$pwd\Release\PSMailTools", $zipFile)
+        Push-AppveyorArtifact $zipFile
+      } catch {
+        Write-Host -Foreground Red $_
+      }
