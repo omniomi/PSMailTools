@@ -1,11 +1,24 @@
-os:
-  - "WMF 5"
+version: 1.0.0.{build}
+skip_tags: true
 
 branches:
   only:
     - master
     - development
     - v0.2.0
+
+skip_commits:
+    message: /skip\-tests/
+    files:
+        - .github/
+        - .vscode/
+        - README.md
+        - .gitattributes
+        - .gitignore
+        - .env*
+
+pull_requests:
+  do_not_increment_build_number: true
 
 install:
   - ps: |
@@ -17,6 +30,7 @@ install:
 
 build_script:
   - ps: |
+      $ErrorAction = 'stop'
       $testResultsFile = Join-Path $pwd -ChildPath "$PSScriptRoot/TestResults.xml"
       Invoke-psake build.psake.ps1 -taskList Test, BuildHelp -properties @{"TestOutputFile" = $testResultsFile}
       if ($psake.build_success -and (Test-Path $testResultsFile)) {
