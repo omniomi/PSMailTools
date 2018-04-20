@@ -1,5 +1,6 @@
 version: 1.0.0.{build}
 skip_tags: true
+os: WMF 5
 
 branches:
   only:
@@ -32,7 +33,7 @@ build_script:
   - ps: |
       $ErrorAction = 'stop'
       $testResultsFile = Join-Path $pwd -ChildPath "$PSScriptRoot/TestResults.xml"
-      Invoke-psake build.psake.ps1 -taskList Test, BuildHelp -properties @{"TestOutputFile" = $testResultsFile}
+      Invoke-psake -buildFile "$PSScriptRoot\build.psake.ps1" -taskList Test, BuildHelp -properties @{"TestOutputFile" = $testResultsFile}
       if ($psake.build_success -and (Test-Path $testResultsFile)) {
           (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $testResultsFile))
       }
