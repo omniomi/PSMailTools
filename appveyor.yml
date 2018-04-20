@@ -32,6 +32,7 @@ install:
 
 build_script:
   - ps: |
+      Write-Host "$pwd"
       $ErrorAction = 'stop'
       $testResultsFile = ".\TestResults.xml"
       Invoke-psake -buildFile ".\build.psake.ps1" -taskList Test, BuildHelp -properties @{"TestOutputFile" = $testResultsFile}
