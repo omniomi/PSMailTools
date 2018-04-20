@@ -1,0 +1,37 @@
+os:
+  - "WMF 5"
+
+branches:
+  only:
+    - master
+    - development
+    - v0.2.0
+
+install:
+  - ps: |
+      Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force | Out-Null
+      Install-Module Pester -MinimumVersion 4.3.1 -Scope CurrentUser -Force | Out-Null
+      Install-Module psake -Scope CurrentUser -Force | Out-Null
+      Install-Module PSScriptAnalyzer -Scope CurrentUser -Force | Out-Null
+      Install-Module platyPS -Scope CurrentUser -Force | Out-Null
+
+build_script:
+  - ps: |
+      $testResultsFile = Join-Path $pwd -ChildPath "$PSScriptRoot/TestResults.xml"
+      Invoke-psake build.psake.ps1 -taskList Test, BuildHelp -properties @{"TestOutputFile" = $testResultsFile}
+      if ($psake.build_success -and (Test-Path $testResultsFile)) {
+          (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", $testResultsFile)
+      }
+      else {
+          # Terminate the script to fail the build
+          $Error | Format-List * -Force
+          exit 1;
+      }
+
+on_finish:
+    - ps: |
+        # Publish the contents of the Release folder
+        Add-Type -assemblyname System.IO.Compression.FileSystem
+        $zipPath = "$pwd\PSMailTools_$env:APPVEYOR_REPO_BRANCH.zip"
+        [System.IO.Compression.ZipFile]::CreateFromDirectory("$pwd\Release", $zipPath)
+        Push-AppveyorArtifact $zipPath
