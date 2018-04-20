@@ -46,10 +46,4 @@ build_script:
       .\build.ps1 -Task Build
 
 on_finish:
-  - ps: |
-      $stagingDirectory = (Resolve-Path $env:APPVEYOR_BUILD_FOLDER).Path
-      $zipFile = Join-Path $stagingDirectory "PSMailTools-$($env:APPVEYOR_REPO_BRANCH).zip"
-      Add-Type -assemblyname System.IO.Compression.FileSystem
-      [System.IO.Compression.ZipFile]::CreateFromDirectory("$env:APPVEYOR_BUILD_FOLDER\Release\PSMailTools", $zipFile)
-      Write-Host $zipFile
-      Push-AppveyorArtifact $zipFile
+  - ps: .\build.ps1 -Task osFinish
