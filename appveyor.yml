@@ -20,7 +20,7 @@ build_script:
       $testResultsFile = Join-Path $pwd -ChildPath "$PSScriptRoot/TestResults.xml"
       Invoke-psake build.psake.ps1 -taskList Test, BuildHelp -properties @{"TestOutputFile" = $testResultsFile}
       if ($psake.build_success -and (Test-Path $testResultsFile)) {
-          (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", $testResultsFile)
+          (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $testResultsFile))
       }
       else {
           # Terminate the script to fail the build
@@ -32,6 +32,7 @@ on_finish:
     - ps: |
         # Publish the contents of the Release folder
         Add-Type -assemblyname System.IO.Compression.FileSystem
-        $zipPath = "$pwd\PSMailTools_$env:APPVEYOR_REPO_BRANCH.zip"
+        $stagingDirectory = (Resolve-Path ..).Path
+        $zipPath = Join-Path $stagingDirectory "PSMailTools-$($env:APPVEYOR_REPO_BRANCH).zip"
         [System.IO.Compression.ZipFile]::CreateFromDirectory("$pwd\Release", $zipPath)
         Push-AppveyorArtifact $zipPath
