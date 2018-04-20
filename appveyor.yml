@@ -31,6 +31,9 @@ install:
       Install-Module platyPS -Scope CurrentUser -Force | Out-Null
       PowerShell.exe -Command { Export-Clixml -InputObject $Profile -Path  $env:temp\PSProfile.xml }
 
+init:
+  - git config --global core.autocrlf true
+
 test_script:
   - ps: |
         $TestResultsFile = ".\TestResults.xml"
