@@ -51,11 +51,11 @@ build_script:
 on_finish:
   - ps: |
         try {
-            $stagingDirectory = (Resolve-Path ..).Path
-            $zipFile = Join-Path $stagingDirectory "PSMailTools-$($env:APPVEYOR_REPO_BRANCH).zip"
-            Add-Type -assemblyname System.IO.Compression.FileSystem
-            [System.IO.Compression.ZipFile]::CreateFromDirectory("$pwd\Release\PSMailTools", $zipFile)
-            Push-AppveyorArtifact $zipFile
+          $stagingDirectory = (Resolve-Path ..).Path
+          $zipFile = Join-Path $stagingDirectory "PSMailTools-$($env:APPVEYOR_REPO_BRANCH).zip"
+          Add-Type -assemblyname System.IO.Compression.FileSystem
+          [System.IO.Compression.ZipFile]::CreateFromDirectory("$pwd\Release\PSMailTools", $zipFile)
+          Push-AppveyorArtifact $zipFile
         } catch {
-            Write-Host -Foreground Red $_
+          Write-Host -Foreground Red $_
         }
