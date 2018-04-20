@@ -50,7 +50,6 @@ build_script:
 
 on_finish:
   - ps: |
-        $ErrorActionPreference = 'Stop'
         try {
             $stagingDirectory = (Resolve-Path ..).Path
             $zipFile = Join-Path $stagingDirectory "PSMailTools-$($env:APPVEYOR_REPO_BRANCH).zip"
