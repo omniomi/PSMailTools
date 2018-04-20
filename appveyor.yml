@@ -31,7 +31,7 @@ install:
       Install-Module platyPS -Scope CurrentUser -Force | Out-Null
       PowerShell.exe -Command { Export-Clixml -InputObject $Profile -Path  $env:temp\PSProfile.xml }
 
-build_script:
+test_script:
   - ps: |
         $TestResultsFile = ".\TestResults.xml"
         $Result = Invoke-Pester .\test\ -OutputFormat NUnitXml -OutputFile $TestResultsFile -PassThru
@@ -39,3 +39,15 @@ build_script:
         if ($Result.FailedCount -gt 0) {
             throw "$($res.FailedCount) tests failed."
         }
+
+build_script:
+  - ps: |
+        $Profile = Import-CliXml $env:temp\PSProfile.xml
+        .\build.ps1 -Task Build
+
+on_finish:
+  - ps: |
+        Add-Type -assemblyname System.IO.Compression.FileSystem
+        $zipPath = "$pwd\Plaster.zip"
+        [System.IO.Compression.ZipFile]::CreateFromDirectory("$pwd\Release", $zipPath)
+        Push-AppveyorArtifact $zipPath
