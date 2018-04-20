@@ -34,7 +34,6 @@ install:
 build_script:
   - ps: |
       $Profile = Import-Clixml $env:temp\PSProfile.xml
-      $ErrorAction = 'stop'
       $testResultsFile = ".\TestResults.xml"
       Invoke-psake -buildFile ".\build.psake.ps1" -taskList Test -properties @{"TestOutputFile" = $testResultsFile}
       if ($psake.build_success -and (Test-Path $testResultsFile)) {
@@ -49,6 +48,7 @@ build_script:
 on_finish:
     - ps: |
         # Publish the contents of the Release folder
+        Set-Location $env:APPVEYOR_BUILD_FOLDER
         Add-Type -assemblyname System.IO.Compression.FileSystem
         $stagingDirectory = (Resolve-Path ..).Path
         $zipPath = Join-Path $stagingDirectory "PSMailTools-$($env:APPVEYOR_REPO_BRANCH).zip"

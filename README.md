@@ -2,7 +2,7 @@
 
 |Master   |  Development | v0.2.0 |
 |:------:|:------:|:------:|
-|[![Build status](https://ci.appveyor.com/api/projects/status/github/omniomi/psmailtools?branch=master&svg=true)](https://ci.appveyor.com/project/omniomi/master/branch/master)|[![Build status](https://ci.appveyor.com/api/projects/status/github/omniomi/psmailtools?branch=development&svg=true)](https://ci.appveyor.com/project/omniomi/master/branch/development)|[![Build status](https://ci.appveyor.com/api/projects/status/github/omniomi/psmailtools?branch=v0.2.0&svg=true)](https://ci.appveyor.com/project/omniomi/master/branch/v0.2.0)|
+|[![Build status](https://ci.appveyor.com/api/projects/status/github/omniomi/psmailtools?branch=master&svg=true)](https://ci.appveyor.com/project/omniomi/psmailtools/branch/master)|[![Build status](https://ci.appveyor.com/api/projects/status/github/omniomi/psmailtools?branch=development&svg=true)](https://ci.appveyor.com/project/omniomi/psmailtools/branch/development)|[![Build status](https://ci.appveyor.com/api/projects/status/github/omniomi/psmailtools?branch=v0.2.0&svg=true)](https://ci.appveyor.com/project/omniomi/psmailtools/branch/v0.2.0)|
 
 PowerShell tools for postmasters.
 
