@@ -31,7 +31,7 @@ install:
       Install-Module platyPS -Scope CurrentUser -Force | Out-Null
       PowerShell.exe -Command { Export-Clixml -InputObject $Profile -Path  $env:temp\PSProfile.xml }
 
-test_code:
+build_script:
   - ps: |
         $TestResultsFile = ".\TestResults.xml"
         $Result = Invoke-Pester .\test\ -OutputFormat NUnitXml -OutputFile $TestResultsFile -PassThru
