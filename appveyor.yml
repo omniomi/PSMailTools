@@ -31,26 +31,11 @@ install:
       Install-Module platyPS -Scope CurrentUser -Force | Out-Null
       PowerShell.exe -Command { Export-Clixml -InputObject $Profile -Path  $env:temp\PSProfile.xml }
 
-build_script:
+test_code:
   - ps: |
-      $Profile = Import-Clixml $env:temp\PSProfile.xml
-      $testResultsFile = ".\TestResults.xml"
-      Invoke-psake -buildFile ".\build.psake.ps1" -taskList Test -properties @{"TestOutputFile" = $testResultsFile}
-      if ($psake.build_success -and (Test-Path $testResultsFile)) {
-          (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $testResultsFile))
-      }
-      else {
-          # Terminate the script to fail the build
-          $Error | Format-List * -Force
-          exit 1;
-      }
-
-on_finish:
-    - ps: |
-        # Publish the contents of the Release folder
-        Set-Location $env:APPVEYOR_BUILD_FOLDER
-        Add-Type -assemblyname System.IO.Compression.FileSystem
-        $stagingDirectory = (Resolve-Path ..).Path
-        $zipPath = Join-Path $stagingDirectory "PSMailTools-$($env:APPVEYOR_REPO_BRANCH).zip"
-        [System.IO.Compression.ZipFile]::CreateFromDirectory(".\Release", $zipPath)
-        Push-AppveyorArtifact $zipPath
+        $TestResultsFile = ".\TestResults.xml"
+        $Result = Invoke-Pester .\test\ -OutputFormat NUnitXml -OutputFile $TestResultsFile -PassThru
+        (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/nunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $TestResultsFile))
+        if ($Result.FailedCount -gt 0) {
+            throw "$($res.FailedCount) tests failed."
+        }
