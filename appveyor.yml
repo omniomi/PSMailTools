@@ -53,10 +53,7 @@ on_finish:
             $zipFile = Join-Path $stagingDirectory "PSMailTools-$($env:APPVEYOR_REPO_BRANCH).zip"
             Add-Type -assemblyname System.IO.Compression.FileSystem
             [System.IO.Compression.ZipFile]::CreateFromDirectory("$pwd\Release\PSMailTools", $zipFile)
-            @(
-                (ls $zipFile),
-                (ls .\out -File)
-            ) | % {$_} | ? {$_} |% { Push-AppveyorArtifact $_.FullName }
+            ls $zipFile | Push-AppveyorArtifact $_.FullName
         } catch {
             Write-Host -Foreground Red $_
         }
