@@ -47,7 +47,16 @@ build_script:
 
 on_finish:
   - ps: |
-        Add-Type -assemblyname System.IO.Compression.FileSystem
-        $zipPath = "$pwd\Plaster.zip"
-        [System.IO.Compression.ZipFile]::CreateFromDirectory("$pwd\Release", $zipPath)
-        Push-AppveyorArtifact $zipPath
+        $ErrorActionPreference = 'Stop'
+        try {
+            $stagingDirectory = (Resolve-Path ..).Path
+            $zipFile = Join-Path $stagingDirectory "PSMailTools-$($env:APPVEYOR_REPO_BRANCH).zip"
+            Add-Type -assemblyname System.IO.Compression.FileSystem
+            [System.IO.Compression.ZipFile]::CreateFromDirectory("$pwd\Release\PSMailTools", $zipFile)
+            @(
+                (ls $zipFile),
+                (ls .\out -File)
+            ) | % {$_} | ? {$_} |% { Push-AppveyorArtifact $_.FullName }
+        } catch {
+            Write-Host -Foreground Red $_
+        }
