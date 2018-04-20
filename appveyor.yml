@@ -29,10 +29,11 @@ install:
       Install-Module psake -Scope CurrentUser -Force | Out-Null
       Install-Module PSScriptAnalyzer -Scope CurrentUser -Force | Out-Null
       Install-Module platyPS -Scope CurrentUser -Force | Out-Null
+      PowerShell.exe -Command { Export-Clixml -InputObject $Profile -Path  $env:temp\PSProfile.xml }
 
 build_script:
   - ps: |
-      Write-Host "$pwd"
+      $Profile = Import-Clixml $env:temp\PSProfile.xml
       $ErrorAction = 'stop'
       $testResultsFile = ".\TestResults.xml"
       Invoke-psake -buildFile ".\build.psake.ps1" -taskList Test, BuildHelp -properties @{"TestOutputFile" = $testResultsFile}
