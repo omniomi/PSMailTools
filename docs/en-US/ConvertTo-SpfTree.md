@@ -74,7 +74,7 @@ Output from Resolve-SPFRecord
 ```yaml
 Type: SPFRecord[]
 Parameter Sets: (All)
-Aliases:
+Aliases: 
 
 Required: False
 Position: 0
@@ -97,3 +97,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+

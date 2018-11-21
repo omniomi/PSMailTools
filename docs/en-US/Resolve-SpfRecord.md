@@ -65,7 +65,7 @@ Pipe the output from Get-SpfRecord to Resolve-SpfRecord.
 ```yaml
 Type: SPFRecord[]
 Parameter Sets: InputObj
-Aliases:
+Aliases: 
 
 Required: True
 Position: Named
@@ -103,3 +103,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+

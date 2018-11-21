@@ -1,7 +1,7 @@
 ---
 external help file: PSMailTools-help.xml
 Module Name: PSMailTools
-online version:
+online version: 
 schema: 2.0.0
 ---
 
@@ -22,7 +22,7 @@ Checks a list of common spam blacklists for a specified IP or hostname.
 ## EXAMPLES
 
 ### Example 1
-```powershell
+```
 PS C:\> Get-SpamBlacklist 10.25.110.1
 
 Blacklist              OnList Message
@@ -38,7 +38,7 @@ psbl.surriel.com         True Listed in PSBL, see http://psbl.org/listing?ip=10.
 Checks the blacklists for the ip 10.25.110.1. Use `-ShowAll` to show all blacklists including those that do not include the IP.
 
 ### Example 2
-```powershell
+```
 PS C:\> Get-SpamBlacklist spammer.mm33ss3.su
 
 Blacklist              OnList Message
@@ -76,7 +76,7 @@ Show all blacklists even if they do not contain a match for the search.
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases:
+Aliases: 
 
 Required: False
 Position: Named
@@ -99,3 +99,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+

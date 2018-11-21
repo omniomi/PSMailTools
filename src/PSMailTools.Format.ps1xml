@@ -157,12 +157,15 @@
             </ListControl>
         </View>
         <View>
-            <Name>SPFRecord-Table</Name>
+            <Name>Header-ReceivedPath</Name>
             <ViewSelectedBy>
-                <TypeName>MailTools.Security.SPF.Recursive</TypeName>
+                <TypeName>MailTools.Message.Source.Received</TypeName>
             </ViewSelectedBy>
             <TableControl>
                 <TableHeaders>
+                    <TableColumnHeader/>
+                    <TableColumnHeader/>
+                    <TableColumnHeader/>
                     <TableColumnHeader/>
                     <TableColumnHeader/>
                     <TableColumnHeader/>
@@ -171,13 +174,22 @@
                     <TableRowEntry>
                         <TableColumnItems>
                             <TableColumnItem>
-                                <PropertyName>Level</PropertyName>
+                                <PropertyName>Hop</PropertyName>
                             </TableColumnItem>
                             <TableColumnItem>
-                                <PropertyName>Name</PropertyName>
+                                <PropertyName>Delay</PropertyName>
                             </TableColumnItem>
                             <TableColumnItem>
-                                <PropertyName>Value</PropertyName>
+                                <PropertyName>From</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>By</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>With</PropertyName>
+                            </TableColumnItem>
+                            <TableColumnItem>
+                                <PropertyName>Timestamp</PropertyName>
                             </TableColumnItem>
                         </TableColumnItems>
                     </TableRowEntry>
